@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoreUp Toolbox — BI integral para PyMEs</title>
+  <meta name="description"
+    content="CoreUp Toolbox: la plataforma de Business Intelligence que centraliza tus datos, conserva históricos y genera insights estratégicos con IA. El servicio llave en mano para PyMEs." />
+  <meta name="theme-color" content="#070B14" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Cursor Glow -->
+  <div id="cursor-glow"
+    class="pointer-events-none fixed top-0 left-0 z-50 hidden h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0 transition-opacity duration-300 md:block"
+    style="background: radial-gradient(circle, rgba(102,102,255,0.12) 0%, transparent 70%);"></div>
+
+  <!-- ===== SCROLLYTELLING CONTAINER ===== -->
+  <div id="story-container" class="relative">
+
+    <!-- ░░░ SECTION 1: HERO / CHAOS ░░░ -->
+    <section id="hero"
+      class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-space-deep px-4">
+      <svg id="particle-canvas" class="pointer-events-none absolute inset-0 h-full w-full"></svg>
+
+      <div class="relative z-10 mx-auto max-w-3xl text-center">
+        <span
+          class="mb-4 inline-block rounded-full border border-space-edge bg-space-mid/60 px-4 py-1.5 text-xs font-medium tracking-widest text-cyan-accent uppercase backdrop-blur-sm">
+          Business Intelligence para PyMEs
+        </span>
+        <h1 class="mt-4 text-4xl leading-tight font-extrabold tracking-tight text-white sm:text-5xl md:text-7xl">
+          Tus datos son un <span
+            class="bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent">caos</span>.
+          <br />Nosotros los ordenamos.
+        </h1>
+        <p class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-gray-400 sm:text-lg">
+          CoreUp centraliza tu información dispersa, conserva tus históricos y genera insights estratégicos con
+          inteligencia artificial. Todo en una plataforma llave en mano.
+        </p>
+        <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <a href="#contact"
+            class="group relative inline-flex cursor-pointer items-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98]">
+            Comenzá ahora
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor"
+              stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+          <a href="#problem"
+            class="inline-flex items-center gap-2 rounded-lg border border-space-edge px-7 py-3.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:border-violet-primary/50 hover:text-white">
+            Descubrí cómo
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="absolute bottom-8 animate-bounce text-violet-primary/60">
+        <svg class="mx-auto h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ░░░ SECTION 2: THE PROBLEM ░░░ -->
+    <section id="problem" class="relative overflow-hidden bg-space-mid px-4 py-24 md:py-32">
+      <div class="mx-auto max-w-5xl">
+        <div class="text-center">
+          <span class="mb-4 inline-block text-sm font-semibold tracking-widest text-pink-accent uppercase">El
+            problema</span>
+          <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+            Las PyMEs pierden <span class="text-pink-accent">oportunidades</span> todos los días
+          </h2>
+          <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
+            Datos en planillas sueltas, Excel sin histórico, decisiones a ciegas. Suena familiar, ¿no?
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Pain Point Cards -->
+          <div class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 backdrop-blur-sm">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-pink-accent/10">
+              <svg class="h-6 w-6 text-pink-accent" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white">Datos dispersos</h3>
+            <p class="mt-2 text-sm leading-relaxed text-gray-400">Información repartida entre Excel, planillas, WhatsApp
+              y cuadernos. Sin una fuente única de verdad.</p>
+          </div>
+
+          <div class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 backdrop-blur-sm">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-pink-accent/10">
+              <svg class="h-6 w-6 text-pink-accent" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white">Sin histórico</h3>
+            <p class="mt-2 text-sm leading-relaxed text-gray-400">Perdés el registro de lo que pasó hace 3 meses. No
+              podés comparar, no podés aprender del pasado.</p>
+          </div>
+
+          <div
+            class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-pink-accent/10">
+              <svg class="h-6 w-6 text-pink-accent" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white">Decisiones a ciegas</h3>
+            <p class="mt-2 text-sm leading-relaxed text-gray-400">Sin métricas claras, cada decisión es un salto al
+              vacío. ¿Qué producto vende más? ¿Cuándo es el pico de ventas?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░░ SECTION 3: ORDER (Chart reveal - the transformation) ░░░ -->
+    <section id="order"
+      class="relative flex min-h-screen items-center justify-center overflow-hidden bg-space-deep px-4">
+      <div class="relative z-10 mx-auto w-full max-w-4xl text-center">
+        <span class="mb-4 inline-block text-sm font-semibold tracking-widest text-teal-accent uppercase">La
+          transformación</span>
+        <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+          Del desorden al <span class="text-violet-primary">orden</span>
+        </h2>
+        <p class="mx-auto mb-12 max-w-lg text-gray-400">CoreUp centraliza, organiza y visualiza. Los datos se alinean.
+          Los patrones emergen. Las decisiones se aclaran.</p>
+
+        <!-- Bar Chart -->
+        <div id="chart-container"
+          class="mx-auto flex h-64 w-full max-w-2xl items-end justify-center gap-3 sm:gap-5 md:h-80">
+          <div class="chart-bar h-0 w-8 rounded-t-md bg-violet-primary sm:w-12 md:w-16" data-target-height="45%"></div>
+          <div class="chart-bar h-0 w-8 rounded-t-md bg-teal-accent sm:w-12 md:w-16" data-target-height="70%"></div>
+          <div class="chart-bar h-0 w-8 rounded-t-md bg-violet-primary sm:w-12 md:w-16" data-target-height="55%"></div>
+          <div class="chart-bar h-0 w-8 rounded-t-md bg-pink-accent sm:w-12 md:w-16" data-target-height="85%"></div>
+          <div class="chart-bar h-0 w-8 rounded-t-md bg-cyan-accent sm:w-12 md:w-16" data-target-height="60%"></div>
+          <div class="chart-bar h-0 w-8 rounded-t-md bg-teal-accent sm:w-12 md:w-16" data-target-height="90%"></div>
+          <div class="chart-bar h-0 w-8 rounded-t-md bg-violet-primary sm:w-12 md:w-16" data-target-height="40%"></div>
+          <div class="chart-bar h-0 w-8 rounded-t-md bg-pink-accent sm:w-12 md:w-16" data-target-height="75%"></div>
+        </div>
+
+        <!-- Line chart overlay -->
+        <svg id="line-chart" class="mx-auto -mt-64 h-64 w-full max-w-2xl opacity-0 md:-mt-80 md:h-80"
+          viewBox="0 0 600 300" preserveAspectRatio="none">
+          <polyline id="line-path" fill="none" stroke="#62C1CA" stroke-width="3" stroke-linecap="round"
+            stroke-linejoin="round" points="37,165 112,90 187,135 262,45 337,120 412,30 487,180 562,75" />
+          <circle cx="37" cy="165" r="5" fill="#62C1CA" class="line-dot" />
+          <circle cx="112" cy="90" r="5" fill="#62C1CA" class="line-dot" />
+          <circle cx="187" cy="135" r="5" fill="#62C1CA" class="line-dot" />
+          <circle cx="262" cy="45" r="5" fill="#62C1CA" class="line-dot" />
+          <circle cx="337" cy="120" r="5" fill="#62C1CA" class="line-dot" />
+          <circle cx="412" cy="30" r="5" fill="#62C1CA" class="line-dot" />
+          <circle cx="487" cy="180" r="5" fill="#62C1CA" class="line-dot" />
+          <circle cx="562" cy="75" r="5" fill="#62C1CA" class="line-dot" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ░░░ SECTION 4: FEATURES ░░░ -->
+    <section id="features" class="relative overflow-hidden bg-space-mid px-4 py-24 md:py-32">
+      <div class="mx-auto max-w-6xl">
+        <div class="text-center">
+          <span
+            class="mb-4 inline-block text-sm font-semibold tracking-widest text-violet-primary uppercase">Funcionalidades</span>
+          <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+            Todo lo que necesitás, <span
+              class="bg-gradient-to-r from-violet-primary to-cyan-accent bg-clip-text text-transparent">en un solo
+              lugar</span>
+          </h2>
+          <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
+            CoreUp Toolbox integra las herramientas esenciales de BI que toda PyME necesita para tomar decisiones
+            inteligentes.
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-8 sm:grid-cols-2">
+          <!-- Feature 1: Dashboard -->
+          <div
+            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-violet-primary/30">
+            <div
+              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-violet-primary/20 to-violet-primary/5">
+              <svg class="h-7 w-7 text-violet-primary" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white">Dashboard interactivo</h3>
+            <p class="mt-3 text-sm leading-relaxed text-gray-400">
+              Visualizá tus métricas críticas en tiempo real: ventas, gastos, márgenes y tendencias. Todo en un panel
+              diseñado para que entiendas tu negocio de un vistazo.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Tiempo
+                real</span>
+              <span
+                class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Gráficos</span>
+              <span
+                class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">KPIs</span>
+            </div>
+          </div>
+
+          <!-- Feature 2: Historial -->
+          <div
+            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-teal-accent/30">
+            <div
+              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-teal-accent/20 to-teal-accent/5">
+              <svg class="h-7 w-7 text-teal-accent" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white">Historial completo</h3>
+            <p class="mt-3 text-sm leading-relaxed text-gray-400">
+              Conservá cada dato desde el primer día. Compará períodos, identificá estacionalidades y aprendé del pasado
+              para planificar el futuro.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span
+                class="rounded-full bg-teal-accent/10 px-3 py-1 text-xs font-medium text-teal-accent">Comparativos</span>
+              <span
+                class="rounded-full bg-teal-accent/10 px-3 py-1 text-xs font-medium text-teal-accent">Tendencias</span>
+              <span
+                class="rounded-full bg-teal-accent/10 px-3 py-1 text-xs font-medium text-teal-accent">Reportes</span>
+            </div>
+          </div>
+
+          <!-- Feature 3: Predicciones -->
+          <div
+            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-cyan-accent/30">
+            <div
+              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-accent/20 to-cyan-accent/5">
+              <svg class="h-7 w-7 text-cyan-accent" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white">Predicciones con IA</h3>
+            <p class="mt-3 text-sm leading-relaxed text-gray-400">
+              Nuestro motor de predicción analiza tus datos históricos para anticipar tendencias de venta, detectar
+              riesgos y descubrir oportunidades antes que la competencia.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full bg-cyan-accent/10 px-3 py-1 text-xs font-medium text-cyan-accent">Machine
+                Learning</span>
+              <span
+                class="rounded-full bg-cyan-accent/10 px-3 py-1 text-xs font-medium text-cyan-accent">Forecasting</span>
+            </div>
+          </div>
+
+          <!-- Feature 4: Asistente IA -->
+          <div
+            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-pink-accent/30">
+            <div
+              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-pink-accent/20 to-pink-accent/5">
+              <svg class="h-7 w-7 text-pink-accent" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white">Asistente con IA</h3>
+            <p class="mt-3 text-sm leading-relaxed text-gray-400">
+              Preguntale a CoreUp en lenguaje natural: "¿Cuánto vendí en enero?" o "¿Cuál es mi producto estrella?".
+              Respuestas instantáneas con contexto de tu negocio.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full bg-pink-accent/10 px-3 py-1 text-xs font-medium text-pink-accent">Lenguaje
+                natural</span>
+              <span
+                class="rounded-full bg-pink-accent/10 px-3 py-1 text-xs font-medium text-pink-accent">Contextual</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░░ SECTION 5: ECOSYSTEM ░░░ -->
+    <section id="ecosystem" class="relative overflow-hidden bg-space-deep px-4 py-24 md:py-32">
+      <div class="mx-auto max-w-5xl">
+        <div class="text-center">
+          <span
+            class="mb-4 inline-block text-sm font-semibold tracking-widest text-cyan-accent uppercase">Ecosistema</span>
+          <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+            Dos plataformas, <span class="text-cyan-accent">un ecosistema</span>
+          </h2>
+          <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
+            Análisis profundo en tu escritorio, seguimiento rápido en tu móvil. CoreUp te acompaña en cada momento de tu
+            negocio.
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-8 md:grid-cols-2">
+          <!-- Toolbox Card -->
+          <div
+            class="scroll-reveal-card relative overflow-hidden rounded-2xl border border-violet-primary/20 bg-gradient-to-b from-violet-primary/5 to-transparent p-8 md:p-10">
+            <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-violet-primary/5 blur-3xl"></div>
+            <div class="relative">
+              <div class="mb-4 inline-flex items-center gap-2 rounded-full bg-violet-primary/10 px-4 py-1.5">
+                <div class="h-2 w-2 rounded-full bg-violet-primary animate-pulse"></div>
+                <span class="text-xs font-semibold text-violet-primary uppercase">Disponible</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white md:text-3xl">CoreUp Toolbox</h3>
+              <p class="mt-1 text-sm font-medium text-violet-primary">Análisis profundo de escritorio</p>
+              <p class="mt-4 text-sm leading-relaxed text-gray-400">
+                El núcleo de la plataforma. Dashboard interactivo, historial completo, predicciones y asistente IA.
+                Desarrollado con tecnología de vanguardia: <span class="font-medium text-gray-300">Kotlin Multiplatform
+                  & Compose Multiplatform</span>.
+              </p>
+              <ul class="mt-6 space-y-2.5">
+                <li class="flex items-center gap-2.5 text-sm text-gray-300">
+                  <svg class="h-4 w-4 shrink-0 text-violet-primary" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Dashboard con métricas en tiempo real
+                </li>
+                <li class="flex items-center gap-2.5 text-sm text-gray-300">
+                  <svg class="h-4 w-4 shrink-0 text-violet-primary" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Historial para análisis comparativos
+                </li>
+                <li class="flex items-center gap-2.5 text-sm text-gray-300">
+                  <svg class="h-4 w-4 shrink-0 text-violet-primary" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Motor de predicción basado en tendencias
+                </li>
+                <li class="flex items-center gap-2.5 text-sm text-gray-300">
+                  <svg class="h-4 w-4 shrink-0 text-violet-primary" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Asistente IA con contexto de tu negocio
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Daily Card -->
+          <div
+            class="scroll-reveal-card relative overflow-hidden rounded-2xl border border-cyan-accent/20 bg-gradient-to-b from-cyan-accent/5 to-transparent p-8 md:p-10">
+            <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-cyan-accent/5 blur-3xl"></div>
+            <div class="relative">
+              <div class="mb-4 inline-flex items-center gap-2 rounded-full bg-cyan-accent/10 px-4 py-1.5">
+                <div class="h-2 w-2 rounded-full bg-cyan-accent"></div>
+                <span class="text-xs font-semibold text-cyan-accent uppercase">En desarrollo</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white md:text-3xl">CoreUp Daily</h3>
+              <p class="mt-1 text-sm font-medium text-cyan-accent">Seguimiento móvil día a día</p>
+              <p class="mt-4 text-sm leading-relaxed text-gray-400">
+                La extensión móvil de CoreUp. Consultá métricas rápidas, recibí alertas inteligentes y mantenete al
+                tanto de tu negocio desde cualquier lugar.
+              </p>
+              <ul class="mt-6 space-y-2.5">
+                <li class="flex items-center gap-2.5 text-sm text-gray-300">
+                  <svg class="h-4 w-4 shrink-0 text-cyan-accent" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Métricas rápidas al instante
+                </li>
+                <li class="flex items-center gap-2.5 text-sm text-gray-300">
+                  <svg class="h-4 w-4 shrink-0 text-cyan-accent" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Alertas y notificaciones inteligentes
+                </li>
+                <li class="flex items-center gap-2.5 text-sm text-gray-300">
+                  <svg class="h-4 w-4 shrink-0 text-cyan-accent" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Sincronización total con Toolbox
+                </li>
+                <li class="flex items-center gap-2.5 text-sm text-gray-300">
+                  <svg class="h-4 w-4 shrink-0 text-cyan-accent" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Acceso desde cualquier lugar
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░░ SECTION 6: SERVICE MODEL (PÓLIZA) ░░░ -->
+    <section id="service" class="relative overflow-hidden bg-space-mid px-4 py-24 md:py-32">
+      <div class="mx-auto max-w-4xl text-center">
+        <span class="mb-4 inline-block text-sm font-semibold tracking-widest text-teal-accent uppercase">Modelo de
+          servicio</span>
+        <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+          No es solo software. <br class="hidden sm:block" />Es un <span
+            class="bg-gradient-to-r from-teal-accent to-cyan-accent bg-clip-text text-transparent">servicio
+            integral</span>.
+        </h2>
+        <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
+          CoreUp es una solución llave en mano. Te acompañamos desde la primera migración hasta la interpretación
+          estratégica de cada dato.
+        </p>
+
+        <div class="mt-16 grid gap-6 sm:grid-cols-3">
+          <!-- Step 1 -->
+          <div
+            class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 text-center backdrop-blur-sm">
+            <div
+              class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-violet-primary to-pink-accent text-lg font-bold text-white">
+              1</div>
+            <h3 class="text-lg font-semibold text-white">Licenciamiento</h3>
+            <p class="mt-2 text-sm leading-relaxed text-gray-400">Accedés a toda la plataforma CoreUp con
+              actualizaciones continuas y soporte dedicado.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div
+            class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 text-center backdrop-blur-sm">
+            <div
+              class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-teal-accent to-cyan-accent text-lg font-bold text-white">
+              2</div>
+            <h3 class="text-lg font-semibold text-white">Migración de datos</h3>
+            <p class="mt-2 text-sm leading-relaxed text-gray-400">Nos encargamos de importar y estructurar toda tu
+              información existente. Sin fricciones.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div
+            class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 text-center backdrop-blur-sm">
+            <div
+              class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-cyan-accent to-violet-primary text-lg font-bold text-white">
+              3</div>
+            <h3 class="text-lg font-semibold text-white">Asesoría estratégica</h3>
+            <p class="mt-2 text-sm leading-relaxed text-gray-400">Te acompañamos con asesoría continua para que
+              interpretes tus datos y tomes mejores decisiones.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░░ SECTION 7: CONTACT / RESULT ░░░ -->
+    <section id="contact" class="relative flex min-h-screen items-center justify-center bg-space-deep px-4 py-20">
+      <div id="form-wrapper" class="relative z-10 mx-auto w-full max-w-lg opacity-0"
+        style="transform: translateY(60px);">
+        <div class="text-center">
+          <span class="mb-4 inline-block text-sm font-semibold tracking-widest text-pink-accent uppercase">Empezá
+            hoy</span>
+          <h2 class="text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+            Transformá tu negocio con <span
+              class="bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent">CoreUp</span>
+          </h2>
+          <p class="mx-auto mt-4 mb-10 max-w-md text-gray-400">
+            Dejanos tus datos y un especialista te contactará para mostrarte cómo CoreUp puede potenciar tu PyME.
+          </p>
+        </div>
+
+        <!-- Contact Card -->
+        <div class="rounded-2xl border border-space-edge bg-card-mid/80 p-6 shadow-2xl backdrop-blur-md sm:p-8">
+          <form id="contact-form" class="space-y-5" novalidate>
+            <!-- Name -->
+            <div>
+              <label for="name" class="mb-1.5 block text-sm font-medium text-gray-300">Nombre</label>
+              <input id="name" name="name" type="text" required autocomplete="name"
+                class="w-full rounded-lg border border-space-edge bg-space-deep/60 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40"
+                placeholder="Tu nombre" />
+              <p class="mt-1 hidden text-xs text-pink-accent" data-error="name">Por favor ingresá tu nombre.</p>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label for="email" class="mb-1.5 block text-sm font-medium text-gray-300">Email</label>
+              <input id="email" name="email" type="email" required autocomplete="email"
+                class="w-full rounded-lg border border-space-edge bg-space-deep/60 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40"
+                placeholder="tu@email.com" />
+              <p class="mt-1 hidden text-xs text-pink-accent" data-error="email">Ingresá un email válido.</p>
+            </div>
+
+            <!-- Company -->
+            <div>
+              <label for="company" class="mb-1.5 block text-sm font-medium text-gray-300">Empresa <span
+                  class="text-gray-500">(opcional)</span></label>
+              <input id="company" name="company" type="text" autocomplete="organization"
+                class="w-full rounded-lg border border-space-edge bg-space-deep/60 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40"
+                placeholder="Nombre de tu empresa" />
+            </div>
+
+            <!-- Message -->
+            <div>
+              <label for="message" class="mb-1.5 block text-sm font-medium text-gray-300">Mensaje</label>
+              <textarea id="message" name="message" rows="4" required
+                class="w-full resize-none rounded-lg border border-space-edge bg-space-deep/60 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40"
+                placeholder="Contanos sobre tu negocio y qué desafíos tenés con tus datos..."></textarea>
+              <p class="mt-1 hidden text-xs text-pink-accent" data-error="message">Por favor ingresá un mensaje.</p>
+            </div>
+
+            <!-- Submit -->
+            <button id="submit-btn" type="submit"
+              class="group relative w-full cursor-pointer overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98]">
+              <span id="btn-text">Quiero una demo</span>
+              <span id="btn-loading" class="hidden items-center justify-center gap-2">
+                <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"></circle>
+                  <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" class="opacity-75"></path>
+                </svg>
+                Enviando...
+              </span>
+            </button>
+          </form>
+
+          <!-- Success message -->
+          <div id="form-success" class="hidden py-8 text-center">
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-accent/20">
+              <svg class="h-8 w-8 text-teal-accent" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white">¡Mensaje enviado!</h3>
+            <p class="mt-2 text-sm text-gray-400">Un especialista de CoreUp te contactará pronto.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-space-edge bg-space-deep px-4 py-8">
+    <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 sm:flex-row">
+      <div class="flex items-center gap-3">
+        <div
+          class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-primary to-pink-accent">
+          <span class="text-sm font-bold text-white">C</span>
+        </div>
+        <span class="text-sm font-semibold text-white">CoreUp</span>
+      </div>
+      <p class="text-xs text-gray-500">
+        © 2026 CoreUp Toolbox. Transformando datos en decisiones.
+      </p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

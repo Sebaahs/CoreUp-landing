@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --color-space-deep: #070B14;
+  --color-space-mid: #0E1525;
+  --color-card-mid: #161E34;
+  --color-space-edge: #182038;
+  --color-violet-primary: #6666FF;
+  --color-pink-accent: #EB4A66;
+  --color-teal-accent: #3C9493;
+  --color-cyan-accent: #62C1CA;
+}
+
+/* ===== Base ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-space-deep);
+  color: #ffffff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(102, 102, 255, 0.3);
+  color: #ffffff;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-space-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-space-edge);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-violet-primary);
+}
+
+/* ===== Particle Styles ===== */
+.particle {
+  will-change: transform, opacity;
+}
+
+/* ===== Chart Bar Glow ===== */
+.chart-bar {
+  will-change: height;
+  box-shadow: 0 0 20px rgba(102, 102, 255, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+.chart-bar:hover {
+  box-shadow: 0 0 30px rgba(102, 102, 255, 0.35);
+}
+
+/* ===== Line Chart ===== */
+#line-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  will-change: stroke-dashoffset;
+}
+
+/* ===== Form Glow Ring ===== */
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(102, 102, 255, 0.15), 0 0 20px rgba(102, 102, 255, 0.08);
+}
+
+/* ===== Gradient Button Shimmer ===== */
+#submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transition: left 0.5s ease;
+}
+#submit-btn:hover::before {
+  left: 100%;
+}
+
+/* ===== Cursor Glow ===== */
+#cursor-glow {
+  will-change: transform;
+  pointer-events: none;
+}

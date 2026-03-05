@@ -1,0 +1,94 @@
+/**
+ * form.js
+ * Client-side validation + Formspree integration for the contact form.
+ */
+
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'; // ← Replace with your Formspree ID
+
+export function initForm() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+
+    const btnText = document.getElementById('btn-text');
+    const btnLoading = document.getElementById('btn-loading');
+    const successPanel = document.getElementById('form-success');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearErrors();
+
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const company = form.company?.value.trim() || '';
+        const message = form.message.value.trim();
+
+        // ——— Validation ———
+        let isValid = true;
+
+        if (!name) {
+            showError('name');
+            isValid = false;
+        }
+        if (!email || !isValidEmail(email)) {
+            showError('email');
+            isValid = false;
+        }
+        if (!message) {
+            showError('message');
+            isValid = false;
+        }
+
+        if (!isValid) return;
+
+        // ——— Submit ———
+        setLoading(true);
+
+        try {
+            const res = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({ name, email, company, message }),
+            });
+
+            if (res.ok) {
+                form.classList.add('hidden');
+                successPanel.classList.remove('hidden');
+            } else {
+                throw new Error('Network error');
+            }
+        } catch {
+            alert('Hubo un error al enviar el formulario. Intentá de nuevo.');
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    function setLoading(loading) {
+        if (loading) {
+            btnText.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
+            btnLoading.classList.add('flex');
+        } else {
+            btnText.classList.remove('hidden');
+            btnLoading.classList.add('hidden');
+            btnLoading.classList.remove('flex');
+        }
+    }
+
+    function showError(field) {
+        const errorEl = form.querySelector(`[data-error="${field}"]`);
+        if (errorEl) errorEl.classList.remove('hidden');
+
+        const input = form.querySelector(`[name="${field}"]`);
+        if (input) input.classList.add('border-pink-accent');
+    }
+
+    function clearErrors() {
+        form.querySelectorAll('[data-error]').forEach((el) => el.classList.add('hidden'));
+        form.querySelectorAll('input, textarea').forEach((el) => el.classList.remove('border-pink-accent'));
+    }
+
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+}
