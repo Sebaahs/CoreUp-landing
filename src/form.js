@@ -3,7 +3,7 @@
  * Client-side validation + Formspree integration for the contact form.
  */
 
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'; // ← Replace with your Formspree ID
+const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxGuA028xppRQvrqBQuQ3yEEbRRy250ZEIIp6Y9qfOBpuAEXsOlvyZDRQWjXS3I6Mli/exec';
 
 export function initForm() {
     const form = document.getElementById('contact-form');
@@ -44,13 +44,15 @@ export function initForm() {
         setLoading(true);
 
         try {
-            const res = await fetch(FORMSPREE_ENDPOINT, {
+            const res = await fetch(APPS_SCRIPT_ENDPOINT, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                // Usamos text/plain para evitar problemas de CORS preflight con Google Apps Script
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ name, email, company, message }),
             });
 
-            if (res.ok) {
+            // Consideramos ok o tipo opaque (si es redirigido o modo sin-cors en algunas configs)
+            if (res.ok || res.type === 'opaque') {
                 form.classList.add('hidden');
                 successPanel.classList.remove('hidden');
             } else {
