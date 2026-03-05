@@ -44,11 +44,17 @@ export function initForm() {
         setLoading(true);
 
         try {
+            const formData = new URLSearchParams();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('company', company);
+            formData.append('message', message);
+
             const res = await fetch(APPS_SCRIPT_ENDPOINT, {
                 method: 'POST',
-                // Usamos text/plain para evitar problemas de CORS preflight con Google Apps Script
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ name, email, company, message }),
+                // Al enviar URLSearchParams, fetch setea automáticamente application/x-www-form-urlencoded
+                // el cual es un "simple request" y evita el problema de CORS, permitiendo a App Script leerlo en e.parameter
+                body: formData,
             });
 
             // Consideramos ok o tipo opaque (si es redirigido o modo sin-cors en algunas configs)
