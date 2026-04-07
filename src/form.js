@@ -59,18 +59,24 @@ export function initForm() {
 
             // Consideramos ok o tipo opaque (si es redirigido o modo sin-cors en algunas configs)
             if (res.ok || res.type === 'opaque') {
+                console.log('Form submission successful. res.type:', res.type);
+
                 // 1. Track Lead Event before UI changes
                 if (typeof window !== "undefined" && window.fbq) {
+                    console.log('Dispatching Meta Pixel Lead event...');
                     window.fbq('track', 'Lead', {
                         content_name: 'CoreUp Demo Request',
                         content_category: 'Services'
                     });
+                } else {
+                    console.warn('Meta Pixel (fbq) not found on window object.');
                 }
 
                 // 2. UI Updates
                 form.classList.add('hidden');
                 successPanel.classList.remove('hidden');
             } else {
+                console.error('Form submission failed with status:', res.status);
                 throw new Error('Network error');
             }
         } catch {
