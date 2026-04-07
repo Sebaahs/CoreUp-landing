@@ -59,13 +59,17 @@ export function initForm() {
 
             // Consideramos ok o tipo opaque (si es redirigido o modo sin-cors en algunas configs)
             if (res.ok || res.type === 'opaque') {
+                // 1. Track Lead Event before UI changes
+                if (typeof window !== "undefined" && window.fbq) {
+                    window.fbq('track', 'Lead', {
+                        content_name: 'CoreUp Demo Request',
+                        content_category: 'Services'
+                    });
+                }
+
+                // 2. UI Updates
                 form.classList.add('hidden');
                 successPanel.classList.remove('hidden');
-
-                // Meta Pixel Lead Event
-                if (typeof window !== "undefined" && window.fbq) {
-                    window.fbq('track', 'Lead');
-                }
             } else {
                 throw new Error('Network error');
             }
