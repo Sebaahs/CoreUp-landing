@@ -3,7 +3,7 @@
  * Client-side validation + Formspree integration for the contact form.
  */
 
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'; // ← Replace with your Formspree ID
+const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxGuA028xppRQvrqBQuQ3yEEbRRy250ZEIIp6Y9qfOBpuAEXsOlvyZDRQWjXS3I6Mli/exec';
 
 export function initForm() {
     const form = document.getElementById('contact-form');
@@ -44,13 +44,21 @@ export function initForm() {
         setLoading(true);
 
         try {
-            const res = await fetch(FORMSPREE_ENDPOINT, {
+            const formData = new URLSearchParams();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('company', company);
+            formData.append('message', message);
+
+            const res = await fetch(APPS_SCRIPT_ENDPOINT, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify({ name, email, company, message }),
+                // Al enviar URLSearchParams, fetch setea automáticamente application/x-www-form-urlencoded
+                // el cual es un "simple request" y evita el problema de CORS, permitiendo a App Script leerlo en e.parameter
+                body: formData,
             });
 
-            if (res.ok) {
+            // Consideramos ok o tipo opaque (si es redirigido o modo sin-cors en algunas configs)
+            if (res.ok || res.type === 'opaque') {
                 form.classList.add('hidden');
                 successPanel.classList.remove('hidden');
             } else {
