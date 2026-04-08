@@ -40,6 +40,16 @@ export function initForm() {
 
         if (!isValid) return;
 
+        // 1. Track Lead Event IMMEDIATELY after validation (before fetch)
+        if (typeof window !== "undefined" && window.fbq) {
+            console.log('Dispatching Meta Pixel Lead event (Pre-fetch)...');
+            window.fbq('track', 'Lead', {
+                content_name: 'CoreUp Demo Request',
+                content_category: 'Services',
+                test_event_code: 'TEST36275'
+            });
+        }
+
         // ——— Submit ———
         setLoading(true);
 
@@ -52,28 +62,12 @@ export function initForm() {
 
             const res = await fetch(APPS_SCRIPT_ENDPOINT, {
                 method: 'POST',
-                // Al enviar URLSearchParams, fetch setea automáticamente application/x-www-form-urlencoded
-                // el cual es un "simple request" y evita el problema de CORS, permitiendo a App Script leerlo en e.parameter
                 body: formData,
             });
 
-            // Consideramos ok o tipo opaque (si es redirigido o modo sin-cors en algunas configs)
             if (res.ok || res.type === 'opaque') {
                 console.log('Form submission successful. res.type:', res.type);
-
-                // 1. Track Lead Event before UI changes
-                if (typeof window !== "undefined" && window.fbq) {
-                    console.log('Dispatching Meta Pixel Lead event with test code...');
-                    window.fbq('track', 'Lead', {
-                        content_name: 'CoreUp Demo Request',
-                        content_category: 'Services',
-                        test_event_code: 'TEST36275'
-                    });
-                } else {
-                    console.warn('Meta Pixel (fbq) not found on window object.');
-                }
-
-                // 2. UI Updates
+                // UI Updates
                 form.classList.add('hidden');
                 successPanel.classList.remove('hidden');
             } else {
