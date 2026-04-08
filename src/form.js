@@ -63,10 +63,11 @@ export function initForm() {
 
                 // 1. Track Lead Event before UI changes
                 if (typeof window !== "undefined" && window.fbq) {
-                    console.log('Dispatching Meta Pixel Lead event...');
+                    console.log('Dispatching Meta Pixel Lead event with test code...');
                     window.fbq('track', 'Lead', {
                         content_name: 'CoreUp Demo Request',
-                        content_category: 'Services'
+                        content_category: 'Services',
+                        test_event_code: 'TEST36275'
                     });
                 } else {
                     console.warn('Meta Pixel (fbq) not found on window object.');
