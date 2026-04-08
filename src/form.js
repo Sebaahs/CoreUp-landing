@@ -42,11 +42,9 @@ export function initForm() {
 
         // 1. Track Lead Event IMMEDIATELY after validation (before fetch)
         if (typeof window !== "undefined" && window.fbq) {
-            console.log('Dispatching Meta Pixel Lead event (Pre-fetch)...');
             window.fbq('track', 'Lead', {
                 content_name: 'CoreUp Demo Request',
-                content_category: 'Services',
-                test_event_code: 'TEST36275'
+                content_category: 'Services'
             });
         }
 
@@ -66,12 +64,10 @@ export function initForm() {
             });
 
             if (res.ok || res.type === 'opaque') {
-                console.log('Form submission successful. res.type:', res.type);
                 // UI Updates
                 form.classList.add('hidden');
                 successPanel.classList.remove('hidden');
             } else {
-                console.error('Form submission failed with status:', res.status);
                 throw new Error('Network error');
             }
         } catch {
