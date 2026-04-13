@@ -40,6 +40,14 @@ export function initForm() {
 
         if (!isValid) return;
 
+        // 1. Track Lead Event IMMEDIATELY after validation (before fetch)
+        if (typeof window !== "undefined" && window.fbq) {
+            window.fbq('track', 'Lead', {
+                content_name: 'CoreUp Demo Request',
+                content_category: 'Services'
+            });
+        }
+
         // ——— Submit ———
         setLoading(true);
 
@@ -52,13 +60,11 @@ export function initForm() {
 
             const res = await fetch(APPS_SCRIPT_ENDPOINT, {
                 method: 'POST',
-                // Al enviar URLSearchParams, fetch setea automáticamente application/x-www-form-urlencoded
-                // el cual es un "simple request" y evita el problema de CORS, permitiendo a App Script leerlo en e.parameter
                 body: formData,
             });
 
-            // Consideramos ok o tipo opaque (si es redirigido o modo sin-cors en algunas configs)
             if (res.ok || res.type === 'opaque') {
+                // UI Updates
                 form.classList.add('hidden');
                 successPanel.classList.remove('hidden');
             } else {
