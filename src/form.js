@@ -18,9 +18,7 @@ export function initForm() {
         clearErrors();
 
         const name = form.name.value.trim();
-        const email = form.email.value.trim();
-        const company = form.company?.value.trim() || '';
-        const message = form.message.value.trim();
+        const whatsapp = form.whatsapp.value.trim();
 
         // ——— Validation ———
         let isValid = true;
@@ -29,12 +27,8 @@ export function initForm() {
             showError('name');
             isValid = false;
         }
-        if (!email || !isValidEmail(email)) {
-            showError('email');
-            isValid = false;
-        }
-        if (!message) {
-            showError('message');
+        if (!whatsapp) {
+            showError('whatsapp');
             isValid = false;
         }
 
@@ -54,9 +48,8 @@ export function initForm() {
         try {
             const formData = new URLSearchParams();
             formData.append('name', name);
-            formData.append('email', email);
-            formData.append('company', company);
-            formData.append('message', message);
+            formData.append('whatsapp', whatsapp);
+            formData.append('WhatsApp', whatsapp);
 
             const res = await fetch(APPS_SCRIPT_ENDPOINT, {
                 method: 'POST',
@@ -99,7 +92,7 @@ export function initForm() {
 
     function clearErrors() {
         form.querySelectorAll('[data-error]').forEach((el) => el.classList.add('hidden'));
-        form.querySelectorAll('input, textarea').forEach((el) => el.classList.remove('border-pink-accent'));
+        form.querySelectorAll('input').forEach((el) => el.classList.remove('border-pink-accent'));
     }
 
     function isValidEmail(email) {

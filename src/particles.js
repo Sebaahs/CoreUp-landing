@@ -5,8 +5,7 @@
  */
 
 const PARTICLE_COUNT = 45;
-const PINK = '#EB4A66';
-const OVERFLOW = 60; // px beyond edges for a natural feel
+const BUBBLE_COLOR = '#dadbf5';
 
 /** @type {SVGCircleElement[]} */
 export let particles = [];
@@ -15,22 +14,25 @@ export function initParticles() {
     const canvas = document.getElementById('particle-canvas');
     if (!canvas) return;
 
-    // Use the SVG's actual rendered size, not window dimensions
-    const rect = canvas.getBoundingClientRect();
-    const w = rect.width;
-    const h = rect.height;
+    // Use window dimensions to ensure full coverage
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    canvas.setAttribute('width', w);
+    canvas.setAttribute('height', h);
+    canvas.setAttribute('viewBox', `0 0 ${w} ${h}`);
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         const r = Math.random() * 4 + 2;
-        const cx = -OVERFLOW + Math.random() * (w + OVERFLOW * 2);
-        const cy = -OVERFLOW + Math.random() * (h + OVERFLOW * 2);
+        const cx = Math.random() * w;
+        const cy = Math.random() * h;
         const opacity = Math.random() * 0.6 + 0.3;
 
         circle.setAttribute('cx', cx);
         circle.setAttribute('cy', cy);
         circle.setAttribute('r', r);
-        circle.setAttribute('fill', PINK);
+        circle.setAttribute('fill', BUBBLE_COLOR);
         circle.setAttribute('opacity', opacity);
         circle.classList.add('particle');
 
