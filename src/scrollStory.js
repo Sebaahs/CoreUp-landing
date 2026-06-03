@@ -69,92 +69,206 @@ export function initScrollStory() {
 
     const heroSection = document.getElementById('hero');
 
-    ScrollTrigger.create({
-        trigger: heroSection,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1,
-        onUpdate: (self) => {
-            const progress = self.progress;
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-
-            particles.forEach((p) => {
-                const origX = parseFloat(p.getAttribute('cx'));
-                const origY = parseFloat(p.getAttribute('cy'));
-                const newX = gsap.utils.interpolate(origX, centerX, progress * 0.6);
-                const newY = gsap.utils.interpolate(origY, centerY, progress * 0.6);
-
-                gsap.set(p, {
-                    attr: { cx: newX, cy: newY },
-                    opacity: 1 - progress * 0.8,
-                });
-            });
-        },
+    gsap.to(particles, {
+        opacity: 0,
+        scrollTrigger: {
+            trigger: heroSection,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+        }
     });
 
     // ===================================================
-    // ORDER: Bar chart + line chart
+    // ORDER: Central Hub satellite connection animation
     // ===================================================
     const orderSection = document.getElementById('order');
-    const bars = gsap.utils.toArray('.chart-bar');
-    const lineChart = document.getElementById('line-chart');
-    const linePath = document.getElementById('line-path');
+    const hubNode = document.getElementById('hub-node');
+    const nodeOps = document.getElementById('node-operations');
+    const nodeAnalysis = document.getElementById('node-analysis');
+    const nodeAI = document.getElementById('node-ai');
+    const nodeSecurity = document.getElementById('node-security');
+    const pathOps = document.getElementById('path-ops-data');
+    const pathAnalysis = document.getElementById('path-analysis');
+    const pathAI = document.getElementById('path-ai');
+    const pathSecurity = document.getElementById('path-security');
+    const hubGlow = document.getElementById('hub-glow');
+    const flowParticles = gsap.utils.toArray('.flow-particle');
 
-    bars.forEach((bar, i) => {
-        const targetH = bar.dataset.targetHeight || '50%';
-        gsap.to(bar, {
-            height: targetH,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: orderSection,
-                start: 'top 80%',
-                end: 'top 20%',
-                scrub: 1,
-            },
-            delay: i * 0.05,
-        });
-    });
+    // Helper to set clean initial state for the hub visualization
+    const setHubInitialState = () => {
+        // Kill existing tweens on these elements
+        gsap.killTweensOf([hubNode, nodeOps, nodeAnalysis, nodeAI, nodeSecurity, hubGlow]);
+        flowParticles.forEach(p => gsap.killTweensOf(p));
 
-    if (linePath) {
-        const pathLength = linePath.getTotalLength ? linePath.getTotalLength() : 1000;
-        gsap.set(linePath, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
+        // Minimize and hide nodes
+        gsap.set([hubNode, nodeOps, nodeAnalysis, nodeAI, nodeSecurity], { scale: 0, opacity: 0, transformOrigin: 'center center' });
+        gsap.set(hubGlow, { scale: 0.5, opacity: 0, transformOrigin: 'center center' });
 
-        gsap.to(linePath, {
-            strokeDashoffset: 0,
-            ease: 'power2.inOut',
-            scrollTrigger: {
-                trigger: orderSection,
-                start: 'top 40%',
-                end: 'center center',
-                scrub: 1,
-            },
-        });
+        // Reset connection paths to original cubic bezier values and hide them
+        if (pathOps) {
+            pathOps.setAttribute('d', 'M 160 220 C 240 220 320 220 400 220');
+            gsap.set(pathOps, { strokeDasharray: pathOps.getTotalLength(), strokeDashoffset: pathOps.getTotalLength() });
+        }
+        if (pathAnalysis) {
+            pathAnalysis.setAttribute('d', 'M 400 220 C 480 220 560 100 640 100');
+            gsap.set(pathAnalysis, { strokeDasharray: pathAnalysis.getTotalLength(), strokeDashoffset: pathAnalysis.getTotalLength() });
+        }
+        if (pathAI) {
+            pathAI.setAttribute('d', 'M 400 220 C 480 220 560 220.5 640 220');
+            gsap.set(pathAI, { strokeDasharray: pathAI.getTotalLength(), strokeDashoffset: pathAI.getTotalLength() });
+        }
+        if (pathSecurity) {
+            pathSecurity.setAttribute('d', 'M 400 220 C 480 220 560 340 640 340');
+            gsap.set(pathSecurity, { strokeDasharray: pathSecurity.getTotalLength(), strokeDashoffset: pathSecurity.getTotalLength() });
+        }
 
-        gsap.to(lineChart, {
-            opacity: 1,
-            ease: 'power2.inOut',
-            scrollTrigger: {
-                trigger: orderSection,
-                start: 'top 50%',
-                end: 'top 20%',
-                scrub: 1,
-            },
-        });
-    }
+        // Reset and hide flowing particles
+        gsap.set(flowParticles, { opacity: 0, attr: { cx: 400, cy: 220 } });
+    };
 
-    gsap.utils.toArray('.line-dot').forEach((dot, i) => {
-        gsap.from(dot, {
-            r: 0,
-            ease: 'back.out(3)',
-            scrollTrigger: {
-                trigger: orderSection,
-                start: `top ${45 - i * 3}%`,
-                end: `top ${35 - i * 3}%`,
-                scrub: 1,
-            },
-        });
+    // Initialize
+    setHubInitialState();
+
+    // Create ScrollTrigger to launch the animation
+    ScrollTrigger.create({
+        trigger: orderSection,
+        start: 'top 65%',
+        onEnter: () => {
+            const tl = gsap.timeline();
+
+            // 1. Reveal central hub with an elastic pop
+            tl.to(hubNode, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'back.out(1.4)'
+            });
+
+            // 2. Reveal satellites scaling in stagger
+            tl.to([nodeOps, nodeAnalysis, nodeAI, nodeSecurity], {
+                scale: 1,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'back.out(1.4)',
+                stagger: 0.12
+            }, '-=0.4');
+
+            // 3. Draw connection lines
+            if (pathOps) tl.to(pathOps, { strokeDashoffset: 0, duration: 1.0, ease: 'power2.out' }, '-=0.6');
+            if (pathAnalysis) tl.to(pathAnalysis, { strokeDashoffset: 0, duration: 1.0, ease: 'power2.out' }, '-=0.8');
+            if (pathAI) tl.to(pathAI, { strokeDashoffset: 0, duration: 1.0, ease: 'power2.out' }, '-=0.8');
+            if (pathSecurity) tl.to(pathSecurity, { strokeDashoffset: 0, duration: 1.0, ease: 'power2.out' }, '-=0.8');
+
+            // 4. Reveal hub glow
+            tl.to(hubGlow, {
+                scale: 1,
+                opacity: 0.35,
+                duration: 0.6,
+                ease: 'power2.out'
+            }, '-=0.8');
+
+            // 5. Start looping micro-animations
+            tl.add(() => {
+                // Looping breath on central hub glow
+                gsap.to(hubGlow, {
+                    scale: 1.15,
+                    opacity: 0.55,
+                    duration: 2.0,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut'
+                });
+
+                // Looping float animation on satellites (paths are dynamically updated to follow floating circles)
+                gsap.to(nodeOps, {
+                    y: '-=4',
+                    duration: 2.4,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut',
+                    onUpdate: () => {
+                        if (!pathOps) return;
+                        const currentY = gsap.getProperty(nodeOps, "y");
+                        pathOps.setAttribute('d', `M 160 ${220 + currentY} C 240 ${220 + currentY} 320 220 400 220`);
+                    }
+                });
+                gsap.to(nodeAnalysis, {
+                    y: '+=3',
+                    duration: 2.6,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut',
+                    onUpdate: () => {
+                        if (!pathAnalysis) return;
+                        const currentY = gsap.getProperty(nodeAnalysis, "y");
+                        pathAnalysis.setAttribute('d', `M 400 220 C 480 220 560 ${100 + currentY} 640 ${100 + currentY}`);
+                    }
+                });
+                gsap.to(nodeAI, {
+                    y: '-=3',
+                    duration: 2.8,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut',
+                    onUpdate: () => {
+                        if (!pathAI) return;
+                        const currentY = gsap.getProperty(nodeAI, "y");
+                        pathAI.setAttribute('d', `M 400 220 C 480 220 560 ${220.5 + currentY} 640 ${220 + currentY}`);
+                    }
+                });
+                gsap.to(nodeSecurity, {
+                    y: '+=4',
+                    duration: 3.0,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut',
+                    onUpdate: () => {
+                        if (!pathSecurity) return;
+                        const currentY = gsap.getProperty(nodeSecurity, "y");
+                        pathSecurity.setAttribute('d', `M 400 220 C 480 220 560 ${340 + currentY} 640 ${340 + currentY}`);
+                    }
+                });
+
+                // Animate data flow particles along paths
+                const animateAlongPath = (particle, path, delay) => {
+                    if (!path) return;
+                    const length = path.getTotalLength();
+                    gsap.set(particle, { opacity: 1 });
+                    const obj = { progress: 0 };
+                    gsap.to(obj, {
+                        progress: 1,
+                        duration: 3.2,
+                        repeat: -1,
+                        delay: delay,
+                        ease: 'none',
+                        onUpdate: () => {
+                            const point = path.getPointAtLength(obj.progress * length);
+                            gsap.set(particle, { attr: { cx: point.x, cy: point.y } });
+                        }
+                    });
+                };
+
+                // Path 1 (Operaciones y Datos -> Hub)
+                animateAlongPath(flowParticles[0], pathOps, 0);
+                animateAlongPath(flowParticles[1], pathOps, 1.6);
+                
+                // Path 2 (Hub -> Análisis avanzado)
+                animateAlongPath(flowParticles[2], pathAnalysis, 0.4);
+                animateAlongPath(flowParticles[3], pathAnalysis, 2.0);
+
+                // Path 3 (Hub -> Inteligencia Artificial)
+                animateAlongPath(flowParticles[4], pathAI, 0.8);
+                animateAlongPath(flowParticles[5], pathAI, 2.4);
+
+                // Path 4 (Hub -> Seguridad/Almacenamiento)
+                animateAlongPath(flowParticles[6], pathSecurity, 1.2);
+                animateAlongPath(flowParticles[7], pathSecurity, 2.8);
+            });
+        },
+        onLeaveBack: () => {
+            setHubInitialState();
+        }
     });
 
     // ===================================================
@@ -180,7 +294,7 @@ export function initScrollStory() {
     // ===================================================
     // Section title/paragraph fade-ups (legacy selectors)
     // ===================================================
-    gsap.utils.toArray('#order h2, #order p').forEach((el) => {
+    gsap.utils.toArray('#order h2, #order .max-w-2xl').forEach((el) => {
         gsap.from(el, {
             y: 40,
             opacity: 0,
