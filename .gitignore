@@ -4,9 +4,10 @@ node_modules/
 # Build output
 dist/
 
-# IDE
+# IDE y herramientas locales
 .vscode/
 .idea/
+.claude/
 
 # OS
 .DS_Store
@@ -18,3 +19,9 @@ Thumbs.db
 
 # Caché de Firebase CLI
 .firebase/
+
+# Capturas originales de la app (pesadas). Los .webp derivados sí se versionan.
+src/_originales/
+
+# OneDrive
+desktop.ini

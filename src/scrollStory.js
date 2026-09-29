@@ -81,8 +81,10 @@ export function initScrollStory() {
 
     // ===================================================
     // ORDER: Central Hub satellite connection animation
+    // Solo existe en la home; en /operacional y /flota no hay #order.
     // ===================================================
     const orderSection = document.getElementById('order');
+    if (orderSection) {
     const hubNode = document.getElementById('hub-node');
     const nodeOps = document.getElementById('node-operations');
     const nodeAnalysis = document.getElementById('node-analysis');
@@ -270,6 +272,7 @@ export function initScrollStory() {
             setHubInitialState();
         }
     });
+    }
 
     // ===================================================
     // CONTACT: Form reveal

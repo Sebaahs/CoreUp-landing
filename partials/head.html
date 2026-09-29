@@ -1,0 +1,56 @@
+<!--
+  Cabecera compartida por las tres páginas.
+  Parámetros: vertical · ruta · titulo · descripcion · ogTitulo · ogDescripcion · ogImagen
+  {{site}} sale de la constante SITE de vite.config.js (un solo lugar para el dominio).
+-->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{{titulo}}</title>
+<meta name="description" content="{{descripcion}}" />
+<link rel="canonical" href="{{site}}{{ruta}}" />
+
+<meta name="theme-color" content="#070B14" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+<!-- Open Graph / WhatsApp / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="CoreUp" />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:url" content="{{site}}{{ruta}}" />
+<meta property="og:title" content="{{ogTitulo}}" />
+<meta property="og:description" content="{{ogDescripcion}}" />
+<meta property="og:image" content="{{site}}/{{ogImagen}}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="{{ogTitulo}}" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ogTitulo}}" />
+<meta name="twitter:description" content="{{ogDescripcion}}" />
+<meta name="twitter:image" content="{{site}}/{{ogImagen}}" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<!-- Meta Pixel Code -->
+<script>
+  !function (f, b, e, v, n, t, s) {
+    if (f.fbq) return; n = f.fbq = function () {
+      n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+    };
+    if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+    n.queue = []; t = b.createElement(e); t.async = !0;
+    t.src = v; s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s)
+  }(window, document, 'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1166277638843805');
+  fbq('track', 'PageView');
+  // Evento propio por página, para poder optimizar cada campaña por separado.
+  fbq('trackCustom', 'ViewVertical', { vertical: '{{vertical}}' });
+  window.__coreupVertical = '{{vertical}}';
+</script>
+<!-- End Meta Pixel Code -->

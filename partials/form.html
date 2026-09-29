@@ -1,0 +1,86 @@
+<!--
+  Formulario de demo. Compartido por las tres páginas.
+  Parámetros:
+    vertical         — viaja al Apps Script para saber de qué página vino el lead
+    bajada           — la línea bajo el título
+    precioClase      — "hidden" para ocultar el bloque de precio (ej. mientras Flota no tenga precio definido)
+    precioDestacado  — ej. "Desde $160.000 ARS/mes."
+    precioResto      — ej. "Pensado para pymes y emprendedores."
+-->
+<section id="contact" class="relative flex min-h-screen items-center justify-center bg-space-deep px-4 py-20">
+  <div id="form-wrapper" class="relative z-10 mx-auto w-full max-w-lg opacity-0" style="transform: translateY(60px);">
+    <div class="text-center">
+      <span class="mb-4 inline-block text-sm font-semibold tracking-widest text-pink-accent uppercase">Empezá
+        hoy</span>
+      <h2 class="text-2xl font-bold text-white sm:text-3xl md:text-4xl leading-tight">
+        Agendá tu demo gratuita
+      </h2>
+      <p class="mx-auto mt-4 mb-8 max-w-md text-sm text-gray-400">
+        {{bajada}}
+      </p>
+    </div>
+
+    <!-- Contact Card -->
+    <div class="rounded-2xl border border-space-edge bg-card-mid/80 p-6 shadow-2xl backdrop-blur-md sm:p-8">
+      <!-- Pricing Reference -->
+      <div
+        class="mb-6 rounded-lg border border-violet-primary/20 bg-violet-primary/5 p-3 text-center text-xs text-slate-600 {{precioClase}}">
+        <span class="font-semibold text-violet-primary">{{precioDestacado}}</span> {{precioResto}}
+      </div>
+
+      <form id="contact-form" class="space-y-5" novalidate>
+        <!-- De qué página vino el lead -->
+        <input type="hidden" id="vertical" name="vertical" value="{{vertical}}" />
+
+        <!-- Name -->
+        <div>
+          <label for="name" class="mb-1.5 block text-sm font-medium text-gray-300">Nombre</label>
+          <input id="name" name="name" type="text" required autocomplete="name"
+            class="w-full rounded-lg border border-space-edge bg-space-deep/60 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40"
+            placeholder="Tu nombre" />
+          <p class="mt-1 hidden text-xs text-pink-accent" data-error="name">Por favor ingresá tu nombre.</p>
+        </div>
+
+        <!-- WhatsApp -->
+        <div>
+          <label for="whatsapp" class="mb-1.5 block text-sm font-medium text-gray-300">WhatsApp</label>
+          <input id="whatsapp" name="whatsapp" type="tel" required autocomplete="tel"
+            class="w-full rounded-lg border border-space-edge bg-space-deep/60 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40"
+            placeholder="Ej: +54 9 11 1234 5678" />
+          <p class="mt-1 hidden text-xs text-pink-accent" data-error="whatsapp">Por favor ingresá tu número de
+            WhatsApp.</p>
+        </div>
+
+        <!-- Submit -->
+        <button id="submit-btn" type="submit"
+          class="group relative w-full cursor-pointer overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98]">
+          <span id="btn-text">Quiero mi demo gratuita →</span>
+          <span id="btn-loading" class="hidden items-center justify-center gap-2">
+            <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"></circle>
+              <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" class="opacity-75"></path>
+            </svg>
+            Enviando...
+          </span>
+        </button>
+      </form>
+
+      <!-- Contact note -->
+      <p class="mt-4 text-center text-xs leading-relaxed text-gray-400">
+        Alguien del equipo se pondrá en contacto con vos rápidamente.
+      </p>
+
+      <!-- Success message -->
+      <div id="form-success" class="hidden py-8 text-center">
+        <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-accent/20">
+          <svg class="h-8 w-8 text-teal-accent" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white">¡Mensaje enviado!</h3>
+        <p class="mt-2 text-sm text-gray-400">Un especialista de CoreUp te contactará pronto.</p>
+      </div>
+    </div>
+  </div>
+</section>

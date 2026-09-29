@@ -1,0 +1,31 @@
+<!-- Logo + navegación entre verticales. {{activo}} = home | operacional | flota -->
+<header class="absolute top-0 left-0 z-30 w-full">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 md:px-8 md:py-8">
+    <a href="/" class="shrink-0">
+      <img src="/src/coreup-solo-texto.svg" alt="CoreUp" class="h-10 md:h-13" />
+    </a>
+
+    <nav class="flex items-center gap-1 sm:gap-2">
+      <a href="/operacional/"
+        class="rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-200 sm:px-4 sm:text-sm nav-link"
+        data-nav="operacional">
+        Comercio
+      </a>
+      <a href="/flota/"
+        class="rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-200 sm:px-4 sm:text-sm nav-link"
+        data-nav="flota">
+        Flota
+      </a>
+      <a href="#contact"
+        class="ml-1 inline-flex rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-3 py-2 text-xs font-semibold whitespace-nowrap text-white shadow-md transition-all duration-300 hover:shadow-lg sm:px-4 sm:text-sm">
+        <span class="sm:hidden">Demo</span>
+        <span class="hidden sm:inline">Agendar demo</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Marca el link de la sección en la que estamos.
+  document.querySelectorAll('[data-nav="{{activo}}"]').forEach((el) => el.classList.add('nav-link-activo'));
+</script>
