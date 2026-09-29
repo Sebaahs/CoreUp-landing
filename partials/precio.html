@@ -1,6 +1,7 @@
 <!--
   Bloque de precio. Va después del modelo de servicio (que explica qué se paga)
-  y antes del formulario. Parámetros: {{precio}}, {{aclaracion}}.
+  y antes del formulario.
+  Parámetros: precio · aclaracion · paso3 · paso3Texto.
 -->
 <section id="precio" class="relative overflow-hidden bg-space-deep px-4 py-24 md:py-28">
   <div class="pointer-events-none absolute -left-24 top-1/4 h-72 w-72 rounded-full bg-violet-primary/10 blur-3xl">
@@ -38,9 +39,8 @@
         <div class="scroll-reveal-card rounded-2xl border border-space-edge bg-space-mid/60 p-6 text-left">
           <span
             class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-primary to-pink-accent text-xs font-bold text-white">3</span>
-          <h3 class="mt-4 text-base font-bold text-white">Arrancamos con tus datos</h3>
-          <p class="mt-2 text-sm leading-relaxed text-gray-400">Si decidís avanzar, migramos tu información y dejamos
-            todo funcionando con vos.</p>
+          <h3 class="mt-4 text-base font-bold text-white">{{paso3}}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-gray-400">{{paso3Texto}}</p>
         </div>
       </div>
     </div>
