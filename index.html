@@ -2,114 +2,70 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Toolbox — BI integral para PyMEs | Integrado con Tienda Nube y Mercado Libre</title>
-  <meta name="description"
-    content="Toolbox centraliza tus datos, conserva históricos y genera insights estratégicos con IA. Ahora también se conecta con Tienda Nube y Mercado Libre: tus ventas online entran solas y tu stock se publica en tus canales." />
-  <meta name="theme-color" content="#070B14" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet" />
-
-  <!-- Meta Pixel Code -->
-  <script>
-    !function (f, b, e, v, n, t, s) {
-      if (f.fbq) return; n = f.fbq = function () {
-        n.callMethod ?
-          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-      };
-      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-      n.queue = []; t = b.createElement(e); t.async = !0;
-      t.src = v; s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1166277638843805');
-    fbq('track', 'PageView');
-  </script>
-  <!-- End Meta Pixel Code test -->
+  <!--@include partials/head.html vertical="home" ruta="/" titulo="CoreUp — Sistema de gestión con análisis e IA para PyMEs" descripcion="Toolbox registra la operación de tu empresa y te la explica: dashboard, reportes automáticos, alertas y asistente con IA. Con un equipo que te acompaña." ogTitulo="El sistema que registra tu negocio y te dice qué hacer" ogDescripcion="Toolbox: la operación y el análisis en un solo lugar, con un equipo que lo implementa y te acompaña." ogImagen="og-home.jpg" -->
 </head>
 
 <body>
   <noscript><img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=1166277638843805&ev=PageView&noscript=1" /></noscript>
+
   <!-- Cursor Glow -->
   <div id="cursor-glow"
     class="pointer-events-none fixed top-0 left-0 z-50 hidden h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0 transition-opacity duration-300 md:block"
     style="background: radial-gradient(circle, rgba(102,102,255,0.12) 0%, transparent 70%);"></div>
 
+  <!--@include partials/header.html activo="home" -->
+
   <!-- ===== SCROLLYTELLING CONTAINER ===== -->
   <div id="story-container" class="relative">
 
-    <!-- ░░░ SECTION 1: HERO / CHAOS ░░░ -->
+    <!-- ░░░ HERO ░░░ -->
     <section id="hero"
-      class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-space-deep px-4 py-24 md:py-0">
-      <!-- Logo de CoreUp Top-Left -->
-      <div class="absolute top-6 left-6 z-20 md:top-8 md:left-8">
-        <img src="/src/coreup-solo-texto.svg" alt="CoreUp" class="h-10 md:h-13" />
-      </div>
-
+      class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-space-deep px-4 py-32 md:py-24">
       <svg id="particle-canvas" class="pointer-events-none absolute inset-0 h-full w-full"></svg>
 
-      <div class="relative z-10 mx-auto w-full max-w-6xl mt-12 md:mt-0">
-        <div class="grid gap-12 md:gap-16 lg:gap-20 xl:gap-24 md:grid-cols-12 items-center text-center md:text-left">
-          <!-- Left Column: Copy & Actions -->
-          <div class="md:col-span-6 lg:col-span-5 flex flex-col md:items-start items-center md:pr-4 lg:pr-8">
-            <a href="#integraciones"
-              class="group inline-flex items-center gap-2.5 rounded-full border border-violet-primary/25 bg-violet-primary/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-violet-primary transition-colors duration-300 hover:border-violet-primary/50">
-              <span class="relative flex h-2 w-2 shrink-0">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-pink-accent opacity-75"></span>
-                <span class="relative inline-flex h-2 w-2 rounded-full bg-pink-accent"></span>
-              </span>
-              Nuevo — Tienda Nube y Mercado Libre, conectados
-              <svg class="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor"
-                stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
-            <h1 class="mt-4 text-3xl leading-tight font-extrabold tracking-tight text-white sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl md:text-left">
-              Tu negocio, <span
-                class="bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent">analizado
-                automáticamente</span>
-            </h1>
-            <p class="mt-6 max-w-xl text-base leading-relaxed text-gray-400 sm:text-lg md:text-left">
-              Tu negocio tiene datos valiosos. Toolbox los convierte en decisiones. Gestioná, analizá y crecé.
-            </p>
-            <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-start w-full">
-              <a href="#contact"
-                class="group relative inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98] w-full sm:w-auto whitespace-nowrap">
-                Agendar demo
-                <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor"
-                  stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
-              <a href="#order"
-                class="inline-flex items-center justify-center gap-2 rounded-lg border border-space-edge px-7 py-3.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:border-violet-primary/50 hover:text-white w-full sm:w-auto whitespace-nowrap">
-                Ver cómo funciona todo
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-              </a>
-            </div>
-            <p class="mt-6 text-sm text-gray-400 font-medium md:text-left">
-              Te acompañamos desde el primer día — configuración, migración de datos y soporte incluidos.
-            </p>
-          </div>
+      <div class="relative z-10 mx-auto w-full max-w-4xl text-center">
+        <h1
+          class="text-3xl leading-tight font-extrabold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+          Tenés todos los datos.<br />
+          <span class="bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent">No tenés
+            ninguna respuesta.</span>
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
+          Toolbox es el sistema donde registrás tu operación y el analista que te explica qué está pasando.
+          Con un equipo atrás que lo implementa y te acompaña.
+        </p>
 
-          <!-- Right Column: Interactive Screenshot Showcase -->
-          <div class="md:col-span-6 lg:col-span-7 relative w-full flex justify-center md:justify-end">
-            <div class="w-full max-w-xl lg:max-w-2xl xl:max-w-3xl overflow-hidden rounded-2xl border border-space-edge bg-white shadow-2xl">
-              <!-- Image Slides Container -->
-              <div id="hero-slider" class="relative w-full aspect-[16/9] overflow-hidden bg-white">
-                <img src="/src/hero-slide-1.png" class="hero-slide active absolute inset-0 w-full h-full object-cover bg-white" alt="Toolbox Dashboard" />
-                <img src="/src/hero-slide-2.jpg" class="hero-slide absolute inset-0 w-full h-full object-cover bg-white" alt="Reporte Pareto" />
-                <img src="/src/hero-slide-3.jpg" class="hero-slide absolute inset-0 w-full h-full object-cover bg-white" alt="Análisis de Tendencias" />
-                <img src="/src/hero-slide-4.jpg" class="hero-slide absolute inset-0 w-full h-full object-cover bg-white" alt="Gestión de Cuentas" />
-              </div>
-            </div>
+        <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a href="#contact"
+            class="group relative inline-flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98] sm:w-auto">
+            Agendar demo
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor"
+              stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+          <a href="#order"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-space-edge px-7 py-3.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:border-violet-primary/50 hover:text-white sm:w-auto">
+            Ver cómo funciona
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Atajo directo a cada vertical -->
+        <div class="mt-12 flex flex-col items-center justify-center gap-3 text-sm sm:flex-row sm:gap-6">
+          <span class="text-xs tracking-widest text-gray-500 uppercase">Elegí tu operación</span>
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <a href="/operacional/"
+              class="inline-flex items-center gap-2 rounded-full border border-violet-primary/25 bg-violet-primary/5 px-4 py-2 text-sm font-medium text-violet-primary transition-colors hover:border-violet-primary/60">
+              Comercio y producción →
+            </a>
+            <a href="/flota/"
+              class="inline-flex items-center gap-2 rounded-full border border-cyan-accent/25 bg-cyan-accent/5 px-4 py-2 text-sm font-medium text-cyan-accent transition-colors hover:border-cyan-accent/60">
+              Flota de camiones →
+            </a>
           </div>
         </div>
       </div>
@@ -202,6 +158,10 @@
             class="bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent">decisiones
             inteligentes</span>.
         </h2>
+        <p
+          class="mb-8 text-base font-semibold bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent sm:text-lg">
+          La memoria y el analista de tu negocio.
+        </p>
         <div class="mx-auto mb-12 max-w-2xl text-center space-y-4">
           <p class="text-base leading-relaxed sm:text-lg">
             Toolbox conecta tus operaciones, tus datos y la inteligencia artificial para darte una visión completa de tu
@@ -357,546 +317,103 @@
       </div>
     </section>
 
-    <!-- ░░░ SECTION 6: SERVICE MODEL (PÓLIZA) ░░░ -->
-    <section id="service" class="relative overflow-hidden bg-space-mid px-4 py-24 md:py-32">
-      <div class="mx-auto max-w-4xl text-center">
-        <span class="mb-4 inline-block text-sm font-semibold tracking-widest text-teal-accent uppercase">Modelo de
-          servicio</span>
-        <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-          No es solo software. <br class="hidden sm:block" />Es un <span
-            class="bg-gradient-to-r from-teal-accent to-cyan-accent bg-clip-text text-transparent">servicio
-            integral</span>.
-        </h2>
-        <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
-          CoreUp es una solución llave en mano. Te acompañamos desde la primera migración hasta la interpretación
-          estratégica de cada dato.
-        </p>
-
-        <div class="mt-16 grid gap-6 sm:grid-cols-3">
-          <!-- Step 1 -->
-          <div
-            class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 text-center backdrop-blur-sm">
-            <div
-              class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-violet-primary to-pink-accent text-lg font-bold text-white">
-              1</div>
-            <h3 class="text-lg font-semibold text-white">Licenciamiento</h3>
-            <p class="mt-2 text-sm leading-relaxed text-gray-400">Accedés a toda la plataforma Toolbox con
-              actualizaciones continuas y soporte dedicado.</p>
-          </div>
-
-          <!-- Step 2 -->
-          <div
-            class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 text-center backdrop-blur-sm">
-            <div
-              class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-teal-accent to-cyan-accent text-lg font-bold text-white">
-              2</div>
-            <h3 class="text-lg font-semibold text-white">Migración de datos</h3>
-            <p class="mt-2 text-sm leading-relaxed text-gray-400">Nos encargamos de importar y estructurar toda tu
-              información existente. Sin fricciones.</p>
-          </div>
-
-          <!-- Step 3 -->
-          <div
-            class="scroll-reveal-card rounded-xl border border-space-edge bg-space-deep/60 p-6 text-center backdrop-blur-sm">
-            <div
-              class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-cyan-accent to-violet-primary text-lg font-bold text-white">
-              3</div>
-            <h3 class="text-lg font-semibold text-white">Asesoría estratégica</h3>
-            <p class="mt-2 text-sm leading-relaxed text-gray-400">Te acompañamos con asesoría continua para que
-              interpretes tus datos y tomes mejores decisiones.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ░░░ SECTION 4: FEATURES ░░░ -->
-    <section id="features" class="relative overflow-hidden bg-space-mid px-4 py-24 md:py-32">
-      <div class="mx-auto max-w-6xl">
-        <div class="text-center">
-          <span
-            class="mb-4 inline-block text-sm font-semibold tracking-widest text-violet-primary uppercase">Funcionalidades</span>
-          <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-            Todo lo que necesitás, <span
-              class="bg-gradient-to-r from-violet-primary to-cyan-accent bg-clip-text text-transparent">en un solo
-              lugar</span>
-          </h2>
-          <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
-            Toolbox integra las herramientas esenciales de BI que toda PyME necesita para tomar decisiones
-            inteligentes. Y ahora también se conecta con tus canales de venta online.
-          </p>
-        </div>
-
-        <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <!-- Feature 1: Dashboard -->
-          <div
-            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-violet-primary/30">
-            <div
-              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-violet-primary/20 to-violet-primary/5">
-              <svg class="h-7 w-7 text-violet-primary" fill="none" stroke="currentColor" stroke-width="1.5"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-white">Dashboard interactivo</h3>
-            <p class="mt-3 text-sm leading-relaxed text-gray-400">
-              Visualizá tus métricas críticas en tiempo real: ventas, gastos, márgenes y tendencias. Todo en un panel
-              diseñado para que entiendas tu negocio de un vistazo.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Tiempo
-                real</span>
-              <span
-                class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Gráficos</span>
-              <span
-                class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">KPIs</span>
-            </div>
-          </div>
-
-          <!-- Feature 2: Predicciones con IA -->
-          <div
-            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-cyan-accent/30">
-            <div
-              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-accent/20 to-cyan-accent/5">
-              <svg class="h-7 w-7 text-cyan-accent" fill="none" stroke="currentColor" stroke-width="1.5"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-white">Predicciones con IA</h3>
-            <p class="mt-3 text-sm leading-relaxed text-gray-400">
-              Nuestro motor de predicción analiza tus datos históricos para anticipar tendencias de venta, detectar
-              riesgos y descubrir oportunidades antes que la competencia.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-cyan-accent/10 px-3 py-1 text-xs font-medium text-cyan-accent">Detectá cuándo
-                vas a quedarte sin stock</span>
-              <span class="rounded-full bg-cyan-accent/10 px-3 py-1 text-xs font-medium text-cyan-accent">Encontrá
-                patrones en tus ventas</span>
-            </div>
-          </div>
-
-          <!-- Feature 3: Asistente con IA -->
-          <div
-            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-pink-accent/30">
-            <div
-              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-pink-accent/20 to-pink-accent/5">
-              <svg class="h-7 w-7 text-pink-accent" fill="none" stroke="currentColor" stroke-width="1.5"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-white">Asistente con IA</h3>
-            <p class="mt-3 text-sm leading-relaxed text-gray-400">
-              Preguntale a Toolbox en lenguaje natural: "¿Cuánto vendí en enero?" o "¿Cuál es mi producto estrella?".
-              Respuestas instantáneas con contexto de tu negocio.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-pink-accent/10 px-3 py-1 text-xs font-medium text-pink-accent">Lenguaje
-                natural</span>
-              <span
-                class="rounded-full bg-pink-accent/10 px-3 py-1 text-xs font-medium text-pink-accent">Contextual</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ░░░ SECTION 4bis: INTEGRACIONES E-COMMERCE ░░░ -->
-    <section id="integraciones" class="relative overflow-hidden bg-space-deep px-4 py-24 md:py-32">
-      <!-- Background Glow Decorators -->
-      <div class="pointer-events-none absolute -left-24 top-1/4 h-72 w-72 rounded-full bg-violet-primary/10 blur-3xl">
-      </div>
-      <div class="pointer-events-none absolute -right-24 bottom-1/4 h-72 w-72 rounded-full bg-pink-accent/10 blur-3xl">
-      </div>
-
-      <div class="relative mx-auto max-w-6xl">
-        <div class="text-center">
-          <span
-            class="mb-4 inline-flex items-center gap-2 rounded-full border border-pink-accent/25 bg-pink-accent/5 px-4 py-1.5 text-xs font-semibold tracking-widest text-pink-accent uppercase">
-            Nuevo · Integraciones
-          </span>
-          <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-            Tu tienda online, <span
-              class="bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent">conectada a
-              Toolbox</span>
-          </h2>
-          <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
-            Conectá <strong class="font-semibold">Tienda Nube</strong> y <strong class="font-semibold">Mercado
-              Libre</strong> una sola vez. Tus ventas online entran solas — con su comisión y su costo de envío — y el
-            stock que administrás en Toolbox se publica en tus canales.
-          </p>
-        </div>
-
-        <!-- Los tres pasos -->
-        <div class="mt-16 grid gap-6 md:grid-cols-3">
-          <div class="rounded-2xl border border-space-edge bg-space-mid/60 p-6">
-            <span
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-violet-primary to-pink-accent text-sm font-bold text-white">01</span>
-            <h3 class="mt-4 text-base font-bold text-white">Conectás tu cuenta</h3>
-            <p class="mt-2 text-sm leading-relaxed text-gray-400">
-              Autorizás a Toolbox desde tu propia tienda, en un par de clics. Sin claves compartidas ni archivos que
-              subir.
-            </p>
-          </div>
-          <div class="rounded-2xl border border-space-edge bg-space-mid/60 p-6">
-            <span
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-violet-primary to-pink-accent text-sm font-bold text-white">02</span>
-            <h3 class="mt-4 text-base font-bold text-white">Vinculás tu catálogo</h3>
-            <p class="mt-2 text-sm leading-relaxed text-gray-400">
-              Toolbox trae tus publicaciones y las empareja con tus productos. Lo que todavía no existía acá, lo
-              creás en el momento.
-            </p>
-          </div>
-          <div class="rounded-2xl border border-space-edge bg-space-mid/60 p-6">
-            <span
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-violet-primary to-pink-accent text-sm font-bold text-white">03</span>
-            <h3 class="mt-4 text-base font-bold text-white">Trabajás en un solo lado</h3>
-            <p class="mt-2 text-sm leading-relaxed text-gray-400">
-              Las ventas entran, el stock sale. Vos administrás tu negocio en Toolbox y tus canales se mantienen al
-              día solos.
-            </p>
-          </div>
-        </div>
-
-        <!-- Beneficios -->
-        <div class="mt-8 grid gap-8 sm:grid-cols-2">
-          <!-- Beneficio 1: ventas automáticas -->
-          <div
-            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-violet-primary/30">
-            <div
-              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-violet-primary/20 to-violet-primary/5">
-              <svg class="h-7 w-7 text-violet-primary" fill="none" stroke="currentColor" stroke-width="1.5"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3 13.5l3.75-3.75M3 13.5h10.5M3 13.5l3.75 3.75M21 10.5l-3.75-3.75M21 10.5H10.5M21 10.5l-3.75 3.75" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-white">Las ventas se cargan solas</h3>
-            <p class="mt-3 text-sm leading-relaxed text-gray-400">
-              Cada venta de tus canales aparece en Toolbox al instante, con su cliente y sus productos. Si el comprador
-              cancela o pide un reembolso, la venta se actualiza sola: nadie tiene que acordarse de corregirla.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">En el
-                momento</span>
-              <span class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Cero
-                carga manual</span>
-            </div>
-          </div>
-
-          <!-- Beneficio 2: margen real -->
-          <div
-            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-cyan-accent/30">
-            <div
-              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-accent/20 to-cyan-accent/5">
-              <svg class="h-7 w-7 text-cyan-accent" fill="none" stroke="currentColor" stroke-width="1.5"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-white">Lo que te deja, no lo que facturás</h3>
-            <p class="mt-3 text-sm leading-relaxed text-gray-400">
-              La comisión de la plataforma y el costo de envío entran como gastos atados a esa venta. Recién ahí
-              sabés cuánto te dejó cada producto — y si vender por ese canal te conviene.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-cyan-accent/10 px-3 py-1 text-xs font-medium text-cyan-accent">Comisiones y
-                envíos</span>
-              <span class="rounded-full bg-cyan-accent/10 px-3 py-1 text-xs font-medium text-cyan-accent">Margen por
-                canal</span>
-            </div>
-          </div>
-
-          <!-- Beneficio 3: un solo stock -->
-          <div
-            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-pink-accent/30">
-            <div
-              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-pink-accent/20 to-pink-accent/5">
-              <svg class="h-7 w-7 text-pink-accent" fill="none" stroke="currentColor" stroke-width="1.5"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-white">Un solo stock, el de Toolbox</h3>
-            <p class="mt-3 text-sm leading-relaxed text-gray-400">
-              El stock nace donde se justifica: una compra o una fabricación. Desde ahí Toolbox lo publica en Tienda
-              Nube y en Mercado Libre. Se terminó el número distinto en cada pantalla — y vender algo que ya no
-              tenías.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-pink-accent/10 px-3 py-1 text-xs font-medium text-pink-accent">Una sola
-                fuente de verdad</span>
-              <span class="rounded-full bg-pink-accent/10 px-3 py-1 text-xs font-medium text-pink-accent">Lo
-                prendés por canal</span>
-            </div>
-          </div>
-
-          <!-- Beneficio 4: publicar -->
-          <div
-            class="scroll-reveal-card group rounded-2xl border border-space-edge bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300 hover:border-violet-primary/30">
-            <div
-              class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-violet-primary/20 to-violet-primary/5">
-              <svg class="h-7 w-7 text-violet-primary" fill="none" stroke="currentColor" stroke-width="1.5"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-white">Publicá sin salir de Toolbox</h3>
-            <p class="mt-3 text-sm leading-relaxed text-gray-400">
-              Creás el producto una vez y lo publicás en tu Tienda Nube desde la misma ficha, con sus fotos y su
-              precio. En Mercado Libre vinculás en dos clics las publicaciones que ya tenés, y listo.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Alta en
-                Tienda Nube</span>
-              <span class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Vinculación
-                en Mercado Libre</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cierre -->
-        <div
-          class="scroll-reveal-card mt-8 rounded-2xl border border-violet-primary/20 bg-gradient-to-r from-violet-primary/5 to-transparent p-8 text-center">
-          <p class="mx-auto max-w-3xl text-sm leading-relaxed text-gray-400 sm:text-base">
-            Y todo eso cae en el mismo lugar de siempre: el dashboard, los reportes y el asistente con IA. Tus ventas
-            online dejan de ser una planilla aparte y pasan a formar parte del análisis de tu negocio.
-          </p>
-          <a href="#contact"
-            class="group relative mt-6 inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98]">
-            Quiero conectar mi tienda
-            <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor"
-              stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ░░░ SECTION 5: ECOSYSTEM ░░░ -->
-    <section id="ecosystem" class="relative overflow-hidden bg-space-deep px-4 py-24 md:py-32">
+    <!-- ░░░ LAS DOS PUERTAS ░░░ -->
+    <section id="verticales" class="relative overflow-hidden bg-space-mid px-4 py-24 md:py-32">
       <div class="mx-auto max-w-5xl">
         <div class="text-center">
           <span
-            class="mb-4 inline-block text-sm font-semibold tracking-widest text-cyan-accent uppercase">Ecosistema</span>
+            class="mb-4 inline-block text-sm font-semibold tracking-widest text-violet-primary uppercase">Un sistema, dos operaciones</span>
           <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-            Todo tu negocio bajo control
+            ¿Qué tipo de empresa <span
+              class="bg-gradient-to-r from-violet-primary to-cyan-accent bg-clip-text text-transparent">tenés?</span>
           </h2>
           <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
-            Análisis profundo, reportes automatizados y predicciones inteligentes para que tomes decisiones estratégicas
-            de forma simple.
+            No es otro software: es el mismo Toolbox, configurado para lo que hace tu empresa todos los días.
           </p>
         </div>
 
-        <div class="mt-16 max-w-2xl mx-auto">
-          <!-- Toolbox Card -->
-          <div
-            class="scroll-reveal-card relative overflow-hidden rounded-2xl border border-violet-primary/20 bg-gradient-to-b from-violet-primary/5 to-transparent p-8 md:p-10 pt-12 md:pt-14 shadow-lg">
-            <!-- Accent Top Line -->
+        <div class="mt-16 grid gap-8 md:grid-cols-2">
+          <!-- Puerta 1: operacional -->
+          <a href="/operacional/"
+            class="scroll-reveal-card group relative block overflow-hidden rounded-2xl border bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300">
             <div class="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-violet-primary to-pink-accent"></div>
-            <!-- Background Glow Decorator -->
-            <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-violet-primary/5 blur-3xl"></div>
-
-            <div class="relative">
-              <!-- Premium App Icon -->
-              <div
-                class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-primary/10 to-pink-accent/15 text-violet-primary">
-                <svg class="h-6 w-6 text-pink-accent" fill="none" stroke="currentColor" stroke-width="2"
-                  viewBox="0 0 24 24">
-                  <rect x="3" y="8" width="18" height="12" rx="2" ry="2" />
-                  <path d="M16 8V6a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-                  <line x1="12" y1="12" x2="12" y2="16" />
-                </svg>
-              </div>
-
-              <h3 class="text-2xl font-bold text-white md:text-3xl">Toolbox</h3>
-              <p
-                class="mt-1 text-sm font-semibold bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent inline-block">
-                La memoria y el analista de tu negocio</p>
-
-              <p class="mt-4 text-sm leading-relaxed text-gray-400">
-                El núcleo de la plataforma. Centralizá tus datos, analizá tus históricos, automatizá reportes y tomá
-                mejores decisiones estratégicas con la ayuda de nuestro asistente inteligente.
-              </p>
-
-              <!-- 2-Column Grid of Features -->
-              <ul class="mt-8 grid gap-4 sm:grid-cols-2">
-                <li
-                  class="flex items-start gap-3 rounded-xl bg-slate-50/50 p-4 border border-slate-100/50 transition-all hover:bg-slate-50">
-                  <span
-                    class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-primary/15 text-violet-primary mt-0.5">
-                    <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </span>
-                  <span class="text-sm font-medium text-gray-700 leading-snug">Dashboard con métricas en tiempo
-                    real</span>
-                </li>
-
-                <li
-                  class="flex items-start gap-3 rounded-xl bg-slate-50/50 p-4 border border-slate-100/50 transition-all hover:bg-slate-50">
-                  <span
-                    class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-primary/15 text-violet-primary mt-0.5">
-                    <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </span>
-                  <span class="text-sm font-medium text-gray-700 leading-snug">Historial para análisis
-                    comparativos</span>
-                </li>
-
-                <li
-                  class="flex items-start gap-3 rounded-xl bg-slate-50/50 p-4 border border-slate-100/50 transition-all hover:bg-slate-50">
-                  <span
-                    class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-primary/15 text-violet-primary mt-0.5">
-                    <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </span>
-                  <span class="text-sm font-medium text-gray-700 leading-snug">Alertas, accionables y diagnóstico de tu
-                    negocio con IA</span>
-                </li>
-
-                <li
-                  class="flex items-start gap-3 rounded-xl bg-slate-50/50 p-4 border border-slate-100/50 transition-all hover:bg-slate-50">
-                  <span
-                    class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-primary/15 text-violet-primary mt-0.5">
-                    <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </span>
-                  <span class="text-sm font-medium text-gray-700 leading-snug">Asistente IA con contexto de tu
-                    negocio</span>
-                </li>
-
-                <li
-                  class="flex items-start gap-3 rounded-xl bg-slate-50/50 p-4 border border-slate-100/50 transition-all hover:bg-slate-50">
-                  <span
-                    class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-primary/15 text-violet-primary mt-0.5">
-                    <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </span>
-                  <span class="text-sm font-medium text-gray-700 leading-snug">Ventas de Tienda Nube y Mercado Libre, sin cargarlas a mano</span>
-                </li>
-
-                <li
-                  class="flex items-start gap-3 rounded-xl bg-slate-50/50 p-4 border border-slate-100/50 transition-all hover:bg-slate-50">
-                  <span
-                    class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-primary/15 text-violet-primary mt-0.5">
-                    <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </span>
-                  <span class="text-sm font-medium text-gray-700 leading-snug">Un solo stock, publicado en todos tus canales</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
-    <!-- ░░░ SECTION 7: CONTACT / RESULT ░░░ -->
-    <section id="contact" class="relative flex min-h-screen items-center justify-center bg-space-deep px-4 py-20">
-      <div id="form-wrapper" class="relative z-10 mx-auto w-full max-w-lg opacity-0"
-        style="transform: translateY(60px);">
-        <div class="text-center">
-          <span class="mb-4 inline-block text-sm font-semibold tracking-widest text-pink-accent uppercase">Empezá
-            hoy</span>
-          <h2 class="text-2xl font-bold text-white sm:text-3xl md:text-4xl leading-tight">
-            Agendá tu demo gratuita
-          </h2>
-          <p class="mx-auto mt-4 mb-8 max-w-md text-sm text-gray-400">
-            Te mostramos Toolbox para que veas cómo puede ayudar a tu negocio.
-          </p>
-        </div>
-
-        <!-- Contact Card -->
-        <div class="rounded-2xl border border-space-edge bg-card-mid/80 p-6 shadow-2xl backdrop-blur-md sm:p-8">
-          <!-- Pricing Reference -->
-          <div
-            class="mb-6 rounded-lg border border-violet-primary/20 bg-violet-primary/5 p-3 text-center text-xs text-slate-600">
-            <span class="font-semibold text-violet-primary">Desde $160.000 ARS/mes.</span> Pensado para pymes y
-            emprendedores.
-          </div>
-
-          <form id="contact-form" class="space-y-5" novalidate>
-            <!-- Name -->
-            <div>
-              <label for="name" class="mb-1.5 block text-sm font-medium text-gray-300">Nombre</label>
-              <input id="name" name="name" type="text" required autocomplete="name"
-                class="w-full rounded-lg border border-space-edge bg-space-deep/60 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40"
-                placeholder="Tu nombre" />
-              <p class="mt-1 hidden text-xs text-pink-accent" data-error="name">Por favor ingresá tu nombre.</p>
-            </div>
-
-            <!-- WhatsApp -->
-            <div>
-              <label for="whatsapp" class="mb-1.5 block text-sm font-medium text-gray-300">WhatsApp</label>
-              <input id="whatsapp" name="whatsapp" type="tel" required autocomplete="tel"
-                class="w-full rounded-lg border border-space-edge bg-space-deep/60 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40"
-                placeholder="Ej: +54 9 11 1234 5678" />
-              <p class="mt-1 hidden text-xs text-pink-accent" data-error="whatsapp">Por favor ingresá tu número de
-                WhatsApp.</p>
-            </div>
-
-            <!-- Submit -->
-            <button id="submit-btn" type="submit"
-              class="group relative w-full cursor-pointer overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98]">
-              <span id="btn-text">Quiero mi demo gratuita →</span>
-              <span id="btn-loading" class="hidden items-center justify-center gap-2">
-                <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"></circle>
-                  <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" class="opacity-75"></path>
-                </svg>
-                Enviando...
-              </span>
-            </button>
-          </form>
-
-          <!-- Contact note -->
-          <p class="mt-4 text-center text-xs leading-relaxed text-gray-400">
-            Alguien del equipo se pondrá en contacto con vos rápidamente.
-          </p>
-
-          <!-- Success message -->
-          <div id="form-success" class="hidden py-8 text-center">
-            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-accent/20">
-              <svg class="h-8 w-8 text-teal-accent" fill="none" stroke="currentColor" stroke-width="2"
+            <div
+              class="mt-3 mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-violet-primary/20 to-violet-primary/5">
+              <svg class="h-7 w-7 text-violet-primary" fill="none" stroke="currentColor" stroke-width="1.5"
                 viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-white">¡Mensaje enviado!</h3>
-            <p class="mt-2 text-sm text-gray-400">Un especialista de CoreUp te contactará pronto.</p>
-          </div>
+            <h3 class="text-2xl font-bold text-white">Comercio y producción</h3>
+            <p class="mt-1 text-sm font-semibold text-violet-primary">Vendés, comprás, fabricás</p>
+            <p class="mt-4 text-sm leading-relaxed text-gray-400">
+              Comercios, distribuidoras y pequeñas fábricas. Ventas, compras, stock con variantes, fabricación
+              por receta, gastos y cuenta corriente de clientes. Y tus canales online conectados.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-2">
+              <span class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Stock y
+                fabricación</span>
+              <span class="rounded-full bg-violet-primary/10 px-3 py-1 text-xs font-medium text-violet-primary">Tienda
+                Nube y Mercado Libre</span>
+            </div>
+            <span
+              class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-violet-primary transition-transform group-hover:translate-x-1">
+              Ver Toolbox para comercio
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          </a>
+
+          <!-- Puerta 2: flota -->
+          <a href="/flota/"
+            class="scroll-reveal-card group relative block overflow-hidden rounded-2xl border bg-space-deep/60 p-8 backdrop-blur-sm transition-all duration-300">
+            <div class="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-teal-accent to-cyan-accent"></div>
+            <div
+              class="mt-3 mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-accent/20 to-cyan-accent/5">
+              <svg class="h-7 w-7 text-cyan-accent" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-white">Flota de camiones</h3>
+            <p class="mt-1 text-sm font-semibold text-cyan-accent">Transportás carga para terceros</p>
+            <p class="mt-4 text-sm leading-relaxed text-gray-400">
+              Empresas de transporte con flota propia. Viajes por etapa, camiones y choferes, documentación
+              ordenada por vencimiento, combustible y consumo, y la cuenta de cada chofer. Con app para el chofer.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-2">
+              <span class="rounded-full bg-cyan-accent/10 px-3 py-1 text-xs font-medium text-cyan-accent">Viajes y
+                choferes</span>
+              <span class="rounded-full bg-cyan-accent/10 px-3 py-1 text-xs font-medium text-cyan-accent">App para el
+                chofer</span>
+            </div>
+            <span
+              class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-cyan-accent transition-transform group-hover:translate-x-1">
+              Ver Toolbox para flotas
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          </a>
         </div>
+
+        <p class="scroll-reveal mt-10 text-center text-sm text-gray-400">
+          ¿Hacés las dos cosas? También. Se prende lo que tu empresa necesita y todo convive en el mismo lugar.
+        </p>
       </div>
     </section>
+
+
+    <!--@include partials/servicio.html paso2="Migración de datos" paso2Texto="Nos encargamos de importar y estructurar toda tu información existente. Sin fricciones." -->
+
+    <!--@include partials/form.html vertical="home" bajada="Te mostramos Toolbox funcionando y vemos juntos si le sirve a tu empresa." precioClase="" precioDestacado="Desde $160.000 ARS/mes." precioResto="Pensado para pymes y emprendedores." -->
 
   </div>
 
-  <!-- Footer -->
-  <footer class="border-t border-space-edge bg-space-deep px-4 py-8">
-    <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 sm:flex-row">
-      <div class="flex items-center gap-3">
-        <img src="/src/coreup-solo-texto.svg" alt="CoreUp" class="h-8 md:h-10" />
-      </div>
-      <p class="text-xs text-gray-500">
-        © 2026 CoreUp. Transformando datos en decisiones.
-      </p>
-    </div>
-  </footer>
+  <!--@include partials/footer.html -->
 
   <script type="module" src="/src/main.js"></script>
 </body>

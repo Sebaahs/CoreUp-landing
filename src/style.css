@@ -197,6 +197,19 @@ footer p {
   color: #64748b !important;
 }
 
+/* ===== Nav del header (compartido por las tres paginas) ===== */
+.nav-link {
+  color: #475569 !important;
+}
+.nav-link:hover {
+  color: var(--color-pink-accent) !important;
+  background-color: rgba(79, 110, 247, 0.06);
+}
+.nav-link-activo {
+  color: var(--color-pink-accent) !important;
+  background-color: rgba(79, 110, 247, 0.08);
+}
+
 /* ===== Hero Slider Animations ===== */
 .hero-slide {
   opacity: 0;
