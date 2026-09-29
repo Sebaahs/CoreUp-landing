@@ -1,7 +1,8 @@
 # Deploy de la landing
 
 La landing se publica en Firebase Hosting, sitio `getcoreup` del proyecto `coreuptoolbox`
-(https://getcoreup.web.app). No hay deploy automático: se publica a mano desde `master`.
+y se sirve en el dominio propio https://getcoreup.com
+(`getcoreup.web.app` es el alias técnico de Firebase). No hay deploy automático: se publica a mano desde `master`.
 
 ## Requisitos (una sola vez)
 
@@ -17,6 +18,8 @@ npm run deploy
 ```
 
 `npm run deploy` hace el build (`dist/`) y lo sube al sitio `getcoreup` (ver `firebase.json`).
+
+Para verificar, abrí https://getcoreup.com (recargá sin caché si no ves el cambio).
 
 ## Volver a la versión anterior
 
