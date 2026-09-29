@@ -17,6 +17,9 @@ Thumbs.db
 .env
 .env.local
 
+# Caché de Firebase CLI
+.firebase/
+
 # Capturas originales de la app (pesadas). Los .webp derivados sí se versionan.
 src/_originales/
 

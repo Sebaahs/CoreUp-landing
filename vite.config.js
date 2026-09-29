@@ -18,6 +18,9 @@ const PAGINAS = [
   { entrada: 'home', archivo: 'index.html', ruta: '/', prioridad: '1.0' },
   { entrada: 'operacional', archivo: 'operacional/index.html', ruta: '/operacional/', prioridad: '0.9' },
   { entrada: 'flota', archivo: 'flota/index.html', ruta: '/flota/', prioridad: '0.9' },
+  // Politica de privacidad de la app de choferes. Prioridad baja: es una pagina
+  // legal, tiene que estar indexada pero no compite con las comerciales.
+  { entrada: 'driversPrivacidad', archivo: 'drivers/privacidad/index.html', ruta: '/drivers/privacidad/', prioridad: '0.3' },
 ];
 
 /**
