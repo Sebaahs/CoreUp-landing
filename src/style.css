@@ -224,3 +224,14 @@ footer p {
   transform: scale(1);
 }
 
+
+/* ===== Grafico de conexiones de la home, en el celular =====
+   Los textos van al costado de cada nodo y en pantallas angostas quedan
+   cortados y diminutos. Se ocultan y se muestran en la lista de abajo
+   (index.html); el encuadre del SVG se ajusta en scrollStory.js. */
+@media (max-width: 639px) {
+  #hub-svg .node-title,
+  #hub-svg .node-subtitle {
+    display: none;
+  }
+}
