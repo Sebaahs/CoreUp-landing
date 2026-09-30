@@ -97,6 +97,16 @@ export function initScrollStory() {
     const hubGlow = document.getElementById('hub-glow');
     const flowParticles = gsap.utils.toArray('.flow-particle');
 
+    // En el celular los textos del grafico se ocultan (style.css), asi que
+    // se encuadran solo los nodos: el dibujo queda mas grande y sin recortes.
+    const hubSvg = document.getElementById('hub-svg');
+    const esCelular = window.matchMedia('(max-width: 639px)');
+    const ajustarEncuadre = () => {
+        if (hubSvg) hubSvg.setAttribute('viewBox', esCelular.matches ? '110 50 580 340' : '0 0 800 450');
+    };
+    ajustarEncuadre();
+    esCelular.addEventListener('change', ajustarEncuadre);
+
     // Helper to set clean initial state for the hub visualization
     const setHubInitialState = () => {
         // Kill existing tweens on these elements

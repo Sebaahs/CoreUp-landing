@@ -175,7 +175,7 @@
         <!-- Hub Visualization Container -->
         <div id="hub-visualization-container"
           class="mx-auto relative w-full max-w-3xl aspect-[8/4.5] overflow-visible mt-8">
-          <svg viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg"
+          <svg id="hub-svg" viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="w-full h-full overflow-visible">
             <path id="path-ops-data" d="M 160 220 C 240 220 320 220 400 220" stroke="url(#line-grad-1)" stroke-width="2"
               stroke-dasharray="6,6" />
@@ -314,6 +314,31 @@
             </defs>
           </svg>
         </div>
+
+        <!-- En el celular los textos del gráfico no entran al costado de cada
+             nodo: se ocultan (style.css) y se muestran acá abajo, en lista. -->
+        <ul class="mx-auto mt-6 grid max-w-sm gap-4 text-left sm:hidden">
+          <li class="flex items-start gap-3">
+            <span class="mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-[#4f6ef7]"></span>
+            <span><span class="block text-sm font-semibold text-slate-900">Operaciones y Datos</span>
+              <span class="block text-xs text-slate-500">Ventas, clientes, stock, Excel/Sheets</span></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-[#4f6ef7]"></span>
+            <span><span class="block text-sm font-semibold text-slate-900">Análisis de datos avanzado</span>
+              <span class="block text-xs text-slate-500">Dashboard personalizado de tu negocio</span></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-[#62C1CA]"></span>
+            <span><span class="block text-sm font-semibold text-slate-900">Inteligencia Artificial</span>
+              <span class="block text-xs text-slate-500">Alertas, oportunidades y asistente de IA</span></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-[#3C9493]"></span>
+            <span><span class="block text-sm font-semibold text-slate-900">Almacenamiento y seguridad de tus datos</span>
+              <span class="block text-xs text-slate-500">Datos centralizados y protegidos</span></span>
+          </li>
+        </ul>
       </div>
     </section>
 
