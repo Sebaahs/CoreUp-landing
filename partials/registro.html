@@ -28,7 +28,13 @@
       </div>
 
       <div class="rounded-2xl border border-space-edge bg-card-mid/80 p-6 shadow-2xl backdrop-blur-md sm:p-8">
-        <form id="registro-form" class="space-y-5" novalidate aria-labelledby="registro-titulo">
+        <!-- method=post + action="#": sin JS nunca viaja nada por la query string; además el botón
+             viene deshabilitado y lo habilita src/registro.js. -->
+        <form id="registro-form" class="space-y-5" method="post" action="#" novalidate
+          aria-labelledby="registro-titulo">
+          <noscript>
+            <p class="rounded-lg border px-4 py-3 text-sm">Para crear tu cuenta necesitás tener JavaScript activado.</p>
+          </noscript>
           <!-- Errores del servidor / de red. Se anuncia y recibe el foco. -->
           <div id="reg-alerta" role="alert" aria-live="assertive" tabindex="-1"
             class="reg-alerta hidden rounded-lg border px-4 py-3 text-sm outline-none"></div>
@@ -135,14 +141,11 @@
             <p id="reg-terminos-error" class="reg-error mt-1 hidden text-xs" data-reg-error="aceptaTerminos"></p>
           </div>
 
-          <!-- Turnstile (Cloudflare). Se renderiza solo si hay VITE_TURNSTILE_SITE_KEY. -->
-          <div>
-            <div id="reg-turnstile" class="min-h-0"></div>
-            <p id="reg-turnstile-error" class="reg-error mt-1 hidden text-xs" data-reg-error="turnstile"></p>
-          </div>
+          <!-- Turnstile (Cloudflare). Se renderiza solo si hay VITE_TURNSTILE_SITE_KEY; sus errores van a #reg-alerta. -->
+          <div id="reg-turnstile" class="min-h-0"></div>
 
           <!-- Enviar -->
-          <button id="reg-submit" type="submit"
+          <button id="reg-submit" type="submit" disabled aria-disabled="true"
             class="group relative w-full cursor-pointer overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98] disabled:cursor-wait disabled:opacity-80">
             <span id="reg-btn-text">Crear mi cuenta gratis →</span>
             <span id="reg-btn-loading" class="hidden items-center justify-center gap-2" aria-hidden="true">

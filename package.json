@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:local": "ALLOW_DEV_BUILD=1 vite build",
     "preview": "vite preview",
     "mock": "node mock/signup-mock.mjs",
     "deploy": "vite build && npx -y firebase-tools@14 deploy --only hosting --project coreuptoolbox"

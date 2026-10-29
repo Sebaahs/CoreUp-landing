@@ -7,7 +7,10 @@
  *
  * La respuesta depende del email:
  *   contiene "dup"    → 409 DUP-409
+ *   contiene "mailmal" → 400 VAL-400 con details del campo email
  *   contiene "val"    → 400 VAL-400 (con details)
+ *   contiene "largo"  → 400 VAL-400 con un message de 1000 caracteres (se recorta a 300)
+ *   contiene "evil"   → 201 con urlIngreso a otro dominio (la landing no tiene que redirigir)
  *   contiene "rate"   → 429 LIM-429 (mismo sobre que el rate limiter del back)
  *   contiene "caida"  → corta la conexión (la landing lo ve como red caída)
  *   contiene "lento"  → 201 después de 3 s (para ver el estado "Creando tu cuenta...")
@@ -85,6 +88,16 @@ const server = createServer((req, res) => {
         }
         if (email.includes('dup')) {
             return error(req, res, 409, 'DUP-409', 'Ese email ya tiene una cuenta. Iniciá sesión o recuperá tu contraseña.');
+        }
+        if (email.includes('mailmal')) {
+            return error(req, res, 400, 'VAL-400', 'Revisá los datos: El email no es válido.', ['email: El email no es válido.']);
+        }
+        if (email.includes('largo')) {
+            return error(req, res, 400, 'VAL-400', 'Mensaje largo. '.repeat(70));
+        }
+        if (email.includes('evil')) {
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ codigoIngreso: 'x', urlIngreso: 'https://evil.example.com/?ingreso=x', venceEnSegundos: 120 }));
         }
         if (email.includes('val')) {
             return error(req, res, 400, 'VAL-400', 'No pudimos verificar que no seas un robot. Probá de nuevo.', ['turnstileToken inválido']);

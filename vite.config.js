@@ -113,18 +113,48 @@ function seoFiles() {
   };
 }
 
-/** Avisa en el build si falta la URL del backend del registro (ver DEPLOY.md). */
-function avisoEnvRegistro(mode) {
+/**
+ * Valida las variables del registro (ver DEPLOY.md) antes del build.
+ *
+ * En modo production (`npm run build` / `npm run deploy`) el build FALLA si:
+ *   - falta VITE_API_URL,
+ *   - VITE_API_URL o VITE_TOOLBOX_URL apuntan a localhost / 127.0.0.1,
+ *   - falta VITE_TURNSTILE_SITE_KEY o es una test key de Cloudflare (1x/2x/3x0000…).
+ * Escape para builds locales de prueba: `npm run build:local` (ALLOW_DEV_BUILD=1) o
+ * cualquier otro modo (`vite build --mode staging`); ahí solo avisa.
+ */
+const LOCAL_RE = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:|\/|$)/i;
+const TURNSTILE_TEST_RE = /^[123]x0{4,}/;
+
+function validarEnvRegistro(mode) {
   return {
-    name: 'aviso-env-registro',
+    name: 'validar-env-registro',
     apply: 'build',
     buildStart() {
-      const env = loadEnv(mode, root, 'VITE_');
-      if (!env.VITE_API_URL) {
-        this.warn('Falta VITE_API_URL: el formulario de prueba gratis no va a poder enviar (ver DEPLOY.md).');
+      const env = { ...loadEnv(mode, root, 'VITE_'), ...pick(process.env) };
+      const problemas = [];
+      if (!env.VITE_API_URL) problemas.push('falta VITE_API_URL');
+      else if (LOCAL_RE.test(env.VITE_API_URL)) problemas.push(`VITE_API_URL apunta a local (${env.VITE_API_URL})`);
+      if (env.VITE_TOOLBOX_URL && LOCAL_RE.test(env.VITE_TOOLBOX_URL)) {
+        problemas.push(`VITE_TOOLBOX_URL apunta a local (${env.VITE_TOOLBOX_URL})`);
       }
+      if (!env.VITE_TURNSTILE_SITE_KEY) problemas.push('falta VITE_TURNSTILE_SITE_KEY');
+      else if (TURNSTILE_TEST_RE.test(env.VITE_TURNSTILE_SITE_KEY)) {
+        problemas.push('VITE_TURNSTILE_SITE_KEY es una test key de Cloudflare');
+      }
+      if (!problemas.length) return;
+
+      const texto = `Registro: ${problemas.join('; ')} (ver DEPLOY.md).`;
+      const escape = process.env.ALLOW_DEV_BUILD === '1' || mode !== 'production';
+      if (escape) this.warn(`${texto} Build de prueba: NO publicar.`);
+      else this.error(`${texto} Para un build local de prueba: npm run build:local.`);
     },
   };
+}
+
+/** Las VITE_* que vengan del entorno del proceso pisan a las de los .env (igual que Vite). */
+function pick(env) {
+  return Object.fromEntries(Object.entries(env).filter(([k]) => k.startsWith('VITE_')));
 }
 
 export default defineConfig(({ mode }) => ({
@@ -141,6 +171,6 @@ export default defineConfig(({ mode }) => ({
     htmlPartials(),
     seoFiles(),
     tailwindcss(),
-    avisoEnvRegistro(mode),
+    validarEnvRegistro(mode),
   ],
 }));

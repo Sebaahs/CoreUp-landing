@@ -26,6 +26,8 @@ const TERMS_VERSION = ENV.VITE_TERMS_VERSION || '2026-10-borrador';
 const TOOLBOX_URL = (ENV.VITE_TOOLBOX_URL || 'https://coreuptoolbox.web.app').replace(/\/+$/, '') + '/';
 
 const TIMEOUT_MS = 20000;
+/** Tope de largo para los mensajes del servidor que se muestran tal cual. */
+const MAX_MENSAJE = 300;
 /** Margen para que el píxel de Meta despache el evento antes de salir de la página. */
 const DEMORA_REDIRECT_MS = 400;
 
@@ -40,6 +42,8 @@ const MSJ = {
     whatsapp: 'Revisá el número: solo números, con el código de país si podés (ej: +54 9 11 1234 5678).',
     terminos: 'Para crear la cuenta tenés que aceptar los Términos y la Política de privacidad.',
     turnstile: 'Esperá un segundo a que terminemos de verificar que no seas un robot.',
+    turnstileError: 'No pudimos cargar la verificación anti-robots.',
+    reintentar: 'Reintentar',
     red: 'No pudimos conectarnos con CoreUp. Revisá tu conexión e intentá de nuevo.',
     servidor: 'Algo salió mal de nuestro lado. Probá de nuevo en unos minutos.',
     dupLink: 'Iniciá sesión en Toolbox',
@@ -64,7 +68,16 @@ export function initRegistro() {
 
     initPanelesDemo();
     initMostrarPassword();
-    const turnstile = initTurnstile();
+    const turnstile = initTurnstile(() => {
+        // El widget falló (red, bloqueador, etc.): se avisa en la alerta con opción de reintentar.
+        // Sin foco ni scroll: puede pasar al cargar la página, con el usuario en otra sección.
+        // aria-live igual lo anuncia; si intenta enviar, la alerta sí toma el foco.
+        mostrarAlerta(MSJ.turnstileError, { reintentarTurnstile: true, sinFoco: true });
+    });
+
+    // Sin JS el botón queda deshabilitado (el HTML lo trae así): el form nunca se envía de forma nativa.
+    btn.disabled = false;
+    btn.removeAttribute('aria-disabled');
 
     // Al corregir un campo se le saca el error (sin esperar al próximo envío).
     form.addEventListener('input', (e) => {
@@ -82,14 +95,15 @@ export function initRegistro() {
         const datos = leerDatos();
         const errores = validar(datos);
 
-        if (!errores.turnstile && TURNSTILE_SITE_KEY && !turnstile.token()) {
-            errores.turnstile = MSJ.turnstile;
-        }
-
         const campos = Object.keys(errores);
         if (campos.length) {
             campos.forEach((c) => mostrarError(c, errores[c]));
             enfocarCampo(campos[0]);
+            return;
+        }
+
+        if (TURNSTILE_SITE_KEY && !turnstile.token()) {
+            mostrarAlerta(MSJ.turnstile, { reintentarTurnstile: turnstile.fallo() });
             return;
         }
 
@@ -105,6 +119,7 @@ export function initRegistro() {
             if (!API_URL) throw new Error('Sin VITE_API_URL');
             const ctrl = new AbortController();
             const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+            // El timeout cubre la respuesta completa: headers y body.
             try {
                 res = await fetch(`${API_URL}/public/signup`, {
                     method: 'POST',
@@ -112,10 +127,12 @@ export function initRegistro() {
                     body: JSON.stringify(body),
                     signal: ctrl.signal,
                 });
+                let texto = '';
+                try { texto = await res.text(); } catch (err) { if (ctrl.signal.aborted) throw err; }
+                try { json = texto ? JSON.parse(texto) : null; } catch { json = null; }
             } finally {
                 clearTimeout(timer);
             }
-            try { json = await res.json(); } catch { json = null; }
         } catch {
             terminarConError(MSJ.red);
             return;
@@ -132,7 +149,7 @@ export function initRegistro() {
         }
 
         const code = (json && json.code) || '';
-        const mensaje = (json && typeof json.message === 'string' && json.message.trim()) || '';
+        const mensaje = recortar(json && json.message);
 
         if (code === 'DUP-409' || res.status === 409) {
             mostrarError('email', 'Este email ya tiene una cuenta.');
@@ -140,6 +157,10 @@ export function initRegistro() {
                 linkLogin: true,
             });
             return;
+        }
+        if (code === 'VAL-400' || res.status === 400) {
+            const detalleEmail = detalleDeCampo(json && json.details, 'email');
+            if (detalleEmail !== null) mostrarError('email', detalleEmail || MSJ.emailInvalido);
         }
         if (code === 'VAL-400' || code === 'LIM-429' || code === 'RATE_LIMITED' || res.status === 400 || res.status === 429) {
             terminarConError(mensaje || MSJ.servidor);
@@ -202,7 +223,11 @@ export function initRegistro() {
         setLoading(false);
         // El token de Turnstile es de un solo uso: después de cada intento hace falta otro.
         turnstile.reset();
+        mostrarAlerta(mensaje, opciones);
+    }
 
+    /** Alerta de arriba del form (role=alert): recibe el foco para que se anuncie. */
+    function mostrarAlerta(mensaje, opciones = {}) {
         alerta.textContent = '';
         const texto = document.createElement('span');
         texto.textContent = mensaje + ' ';
@@ -214,7 +239,21 @@ export function initRegistro() {
             a.textContent = MSJ.dupLink;
             alerta.appendChild(a);
         }
+        if (opciones.reintentarTurnstile) {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'reg-link cursor-pointer font-semibold underline';
+            b.textContent = MSJ.reintentar;
+            b.addEventListener('click', () => {
+                alerta.textContent = '';
+                alerta.classList.add('hidden');
+                turnstile.reset();
+                document.getElementById('reg-turnstile')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            });
+            alerta.appendChild(b);
+        }
         alerta.classList.remove('hidden');
+        if (opciones.sinFoco) return;
         alerta.focus({ preventScroll: true });
         alerta.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
@@ -232,7 +271,6 @@ export function initRegistro() {
 
     function campoDe(nombre) {
         if (nombre === 'queHaces') return form.querySelector('input[name="queHaces"]');
-        if (nombre === 'turnstile') return null;
         return form.querySelector(`[name="${nombre}"]`);
     }
 
@@ -273,17 +311,12 @@ export function initRegistro() {
     }
 
     function limpiarTodo() {
-        ['nombre', 'email', 'password', 'negocio', 'queHaces', 'whatsapp', 'aceptaTerminos', 'turnstile'].forEach(limpiarError);
+        ['nombre', 'email', 'password', 'negocio', 'queHaces', 'whatsapp', 'aceptaTerminos'].forEach(limpiarError);
         alerta.textContent = '';
         alerta.classList.add('hidden');
     }
 
     function enfocarCampo(nombre) {
-        if (nombre === 'turnstile') {
-            const el = form.querySelector('[data-reg-error="turnstile"]');
-            if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-            return;
-        }
         const input = campoDe(nombre);
         if (input) {
             input.focus({ preventScroll: true });
@@ -304,11 +337,11 @@ export function initRegistro() {
             document.querySelectorAll('[data-abrir-demo][aria-expanded]').forEach((b) => b.setAttribute('aria-expanded', 'true'));
             if (enfocar) document.getElementById('demo-titulo')?.focus({ preventScroll: true });
         };
-        const volver = () => {
+        const volver = (enfocar = true) => {
             demo.classList.add('hidden');
             registro.classList.remove('hidden');
             document.querySelectorAll('[data-abrir-demo][aria-expanded]').forEach((b) => b.setAttribute('aria-expanded', 'false'));
-            document.getElementById('registro-titulo')?.focus({ preventScroll: true });
+            if (enfocar) document.getElementById('registro-titulo')?.focus({ preventScroll: true });
         };
 
         // Botón de la tarjeta y cualquier otro CTA de demo de la página (p. ej. el del bloque de precio).
@@ -318,6 +351,15 @@ export function initRegistro() {
                 abrirDemo();
                 document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
+        });
+        // Los CTA de registro (header, hero, etc.) apuntan a #contact: si la demo está abierta, vuelven al registro.
+        document.querySelectorAll('a[href="#contact"]:not([data-abrir-demo])').forEach((el) => {
+            el.addEventListener('click', () => {
+                if (!demo.classList.contains('hidden')) volver(false);
+            });
+        });
+        window.addEventListener('hashchange', () => {
+            if (window.location.hash === '#contact' && !demo.classList.contains('hidden')) volver(false);
         });
         document.querySelectorAll('[data-volver-registro]').forEach((el) => {
             el.addEventListener('click', (e) => {
@@ -355,13 +397,14 @@ export function initRegistro() {
  * Carga el widget de Cloudflare Turnstile en modo explícito. Sin site key no
  * carga nada y el token viaja vacío (el back local corre con TURNSTILE_BYPASS).
  */
-function initTurnstile() {
+function initTurnstile(onError) {
     const cont = document.getElementById('reg-turnstile');
-    const noop = { token: () => '', reset: () => {} };
+    const noop = { token: () => '', reset: () => {}, fallo: () => false };
     if (!cont || !TURNSTILE_SITE_KEY) return noop;
 
     let widgetId = null;
     let token = '';
+    let fallo = false;
 
     const render = () => {
         if (!window.turnstile || widgetId !== null) return;
@@ -373,11 +416,16 @@ function initTurnstile() {
             action: 'signup',
             callback: (t) => {
                 token = t;
-                const err = document.querySelector('[data-reg-error="turnstile"]');
-                if (err) { err.textContent = ''; err.classList.add('hidden'); }
+                fallo = false;
             },
             'expired-callback': () => { token = ''; },
-            'error-callback': () => { token = ''; },
+            'error-callback': () => {
+                token = '';
+                fallo = true;
+                onError();
+                // true = ya lo manejamos; Turnstile no reintenta ni tira la excepción por su cuenta.
+                return true;
+            },
         });
     };
 
@@ -386,13 +434,20 @@ function initTurnstile() {
     s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__coreupTurnstileListo';
     s.async = true;
     s.defer = true;
+    s.onerror = () => { fallo = true; onError(); };
     document.head.appendChild(s);
 
     return {
         token: () => token || (widgetId !== null && window.turnstile ? window.turnstile.getResponse(widgetId) || '' : ''),
+        fallo: () => fallo,
         reset: () => {
             token = '';
-            if (widgetId !== null && window.turnstile) {
+            if (widgetId === null) {
+                // El script no había cargado: se intenta de nuevo.
+                if (window.turnstile) render();
+                return;
+            }
+            if (window.turnstile) {
                 try { window.turnstile.reset(widgetId); } catch { /* sin widget no hay nada que resetear */ }
             }
         },
@@ -401,7 +456,12 @@ function initTurnstile() {
 
 // ——— Validación ———
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+/**
+ * Parecido a @IsEmail de class-validator (sin ser idéntico): parte local sin espacios ni
+ * puntos al borde, dominio con etiquetas alfanuméricas (guiones en el medio) y TLD de
+ * 2+ letras. Sin puntos dobles en ningún lado.
+ */
+const EMAIL_RE = /^(?!\.)(?!.*\.\.)[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]{1,64}(?<!\.)@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,63}$/;
 
 function validar(d) {
     const e = {};
@@ -424,13 +484,44 @@ function normalizarWhatsapp(crudo) {
     return /^\+?\d{8,15}$/.test(limpio) ? limpio : '';
 }
 
-/** Solo se redirige a http(s): nunca a un javascript: u otro esquema que venga en la respuesta. */
+const HOSTS_LOCALES = ['localhost', '127.0.0.1', '[::1]'];
+
+/**
+ * urlIngreso solo se sigue si es https al host de VITE_TOOLBOX_URL (http solo en
+ * localhost). En dev también se acepta cualquier localhost (el mock, Toolbox local).
+ * Nunca javascript:, data: ni otro dominio.
+ */
 function urlSegura(valor) {
     if (typeof valor !== 'string' || !valor) return '';
     try {
-        const u = new URL(valor, window.location.href);
-        return u.protocol === 'https:' || u.protocol === 'http:' ? u.href : '';
+        const u = new URL(valor);
+        const local = HOSTS_LOCALES.includes(u.hostname);
+        if (u.protocol !== 'https:' && !(u.protocol === 'http:' && local)) return '';
+        const toolbox = new URL(TOOLBOX_URL);
+        if (u.host === toolbox.host && u.protocol === toolbox.protocol) return u.href;
+        if (ENV.DEV && local) return u.href;
+        return '';
     } catch {
         return '';
     }
+}
+
+/** Mensaje del servidor, limpio y con tope de largo. */
+function recortar(valor) {
+    if (typeof valor !== 'string') return '';
+    const t = valor.trim();
+    return t.length > MAX_MENSAJE ? t.slice(0, MAX_MENSAJE - 1) + '…' : t;
+}
+
+/**
+ * Busca en `details` del VAL-400 algo sobre `campo`. null = nada; '' = hay error pero
+ * el texto es el default en inglés de class-validator; si no, el texto (recortado).
+ */
+function detalleDeCampo(details, campo) {
+    if (!Array.isArray(details)) return null;
+    const d = details.find((x) => typeof x === 'string' && x.toLowerCase().includes(campo));
+    if (!d) return null;
+    if (/\b(must|should|property|is not|are not)\b/.test(d)) return '';
+    // "email: El email no es válido." → "El email no es válido."
+    return recortar(d.replace(new RegExp(`^\\s*${campo}\\s*[:\\-–]\\s*`, 'i'), ''));
 }

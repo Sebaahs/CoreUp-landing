@@ -36,8 +36,14 @@ que estar definidas **antes** del `npm run deploy`. Son públicas: no van secret
 | `VITE_TOOLBOX_URL` | Toolbox, para "Iniciá sesión" | `http://localhost:8080` | `https://coreuptoolbox.web.app` (default) |
 
 - Para producción, crear `.env.production.local` (está en `.gitignore`) con los valores de la tabla
-  antes de `npm run deploy`. Si falta `VITE_API_URL`, el build avisa y el formulario muestra
-  "No pudimos conectarnos". Ojo: Vite también carga `.env.local` en el build; si en la máquina del deploy
+  antes de `npm run deploy`.
+- **El build de producción falla** (`npm run build` y `npm run deploy`) si falta `VITE_API_URL`, si
+  `VITE_API_URL` o `VITE_TOOLBOX_URL` apuntan a `localhost` / `127.0.0.1`, o si
+  `VITE_TURNSTILE_SITE_KEY` falta o es una test key de Cloudflare (`1x0000…`, `2x0000…`, `3x0000…`).
+- Escape para builds locales de prueba (solo avisa, **no publicar ese `dist/`**):
+  `npm run build:local` (equivale a `ALLOW_DEV_BUILD=1 vite build`) o `npx vite build --mode staging`.
+- `urlIngreso` del backend (`APP_URL`) tiene que ser https y del mismo host que `VITE_TOOLBOX_URL`;
+  si no, la landing no redirige y muestra el error genérico. Ojo: Vite también carga `.env.local` en el build; si en la máquina del deploy
   hay uno con valores de local, `.env.production.local` tiene que pisar las cuatro variables.
 - **El origen de la landing tiene que estar en `ALLOWED_ORIGINS` del backend** (`https://getcoreup.com`,
   y `https://getcoreup.web.app` si se usa el alias). Sin eso el navegador bloquea la llamada por CORS y
@@ -53,8 +59,9 @@ Sin backend, con el mock (responde según el email: `dup` → 409, `val` → 400
 
 ```bash
 cp .env.example .env.local
-npm run mock      # http://localhost:3000
-npm run dev       # http://localhost:5173
+npm run mock         # http://localhost:3000
+npm run dev          # http://localhost:5173
+npm run build:local  # build con las variables de local (el `npm run build` normal las rechaza)
 ```
 
 Contra el backend real en local: levantar ToolboxBackend con `ALLOWED_ORIGINS` que incluya
