@@ -21,6 +21,55 @@ npm run deploy
 
 Para verificar, abrí https://getcoreup.com (recargá sin caché si no ves el cambio).
 
+## Variables del formulario de prueba gratis
+
+Home y `/operacional` tienen el registro "Probá CoreUp gratis 14 días" (`partials/registro.html` +
+`src/registro.js`), que llama a `POST /public/signup` del backend. `/flota` sigue con la demo.
+Las variables son de build (Vite las incrusta en el JS al hacer `npm run build`), así que tienen
+que estar definidas **antes** del `npm run deploy`. Son públicas: no van secretos.
+
+| Variable | Qué es | Local | Producción |
+|---|---|---|---|
+| `VITE_API_URL` | Backend, sin barra final | `http://localhost:3000` | URL de `toolbox-wrapper` (prod) |
+| `VITE_TURNSTILE_SITE_KEY` | Site key de Cloudflare Turnstile | `1x00000000000000000000AA` (prueba) | Site key real del widget de `getcoreup.com` |
+| `VITE_TERMS_VERSION` | Versión de Términos aceptada | `2026-10-borrador` | La misma que `TERMS_VERSION` del backend |
+| `VITE_TOOLBOX_URL` | Toolbox, para "Iniciá sesión" | `http://localhost:8080` | `https://coreuptoolbox.web.app` (default) |
+
+- Para producción, crear `.env.production.local` (está en `.gitignore`) con los valores de la tabla
+  antes de `npm run deploy`.
+- **El build de producción falla** (`npm run build` y `npm run deploy`) si falta `VITE_API_URL`, si
+  `VITE_API_URL` o `VITE_TOOLBOX_URL` apuntan a `localhost` / `127.0.0.1`, o si
+  `VITE_TURNSTILE_SITE_KEY` falta o es una test key de Cloudflare (`1x0000…`, `2x0000…`, `3x0000…`).
+- Escape para builds locales de prueba (solo avisa, **no publicar ese `dist/`**):
+  `npm run build:local` (equivale a `ALLOW_DEV_BUILD=1 vite build`) o `npx vite build --mode staging`.
+- `urlIngreso` del backend (`APP_URL`) tiene que ser https y del mismo host que `VITE_TOOLBOX_URL`;
+  si no, la landing no redirige y muestra el error genérico. Ojo: Vite también carga `.env.local` en el build; si en la máquina del deploy
+  hay uno con valores de local, `.env.production.local` tiene que pisar las cuatro variables.
+- **El origen de la landing tiene que estar en `ALLOWED_ORIGINS` del backend** (`https://getcoreup.com`,
+  y `https://getcoreup.web.app` si se usa el alias). Sin eso el navegador bloquea la llamada por CORS y
+  el usuario ve el mensaje de red caída. En local: `http://localhost:5173`.
+- `VITE_TERMS_VERSION` distinta de `TERMS_VERSION` del back → todas las altas dan `VAL-400`.
+- La secret key de Turnstile (`TURNSTILE_SECRET`) va solo en el backend.
+- `/terminos/` todavía no existe: hay que publicarla antes de abrir el registro en prod.
+
+### Probar en local
+
+Sin backend, con el mock (responde según el email: `dup` → 409, `val` → 400, `rate` → 429,
+`caida` → corta la conexión, `lento` → 201 con 3 s de demora, cualquier otro → 201):
+
+```bash
+cp .env.example .env.local
+npm run mock         # http://localhost:3000
+npm run dev          # http://localhost:5173
+npm run build:local  # build con las variables de local (el `npm run build` normal las rechaza)
+```
+
+Contra el backend real en local: levantar ToolboxBackend con `ALLOWED_ORIGINS` que incluya
+`http://localhost:5173`, `TURNSTILE_BYPASS=true` (o la secret de prueba de Cloudflare
+`1x0000000000000000000000000000000AA`), `TERMS_VERSION=2026-10-borrador` y `MAIL_PROVIDER=log`, y
+apuntar `VITE_API_URL` a su puerto. El 201 redirige a `urlIngreso` (`APP_URL/?ingreso=…`), que es
+Toolbox en dev.
+
 ## Volver a la versión anterior
 
 Firebase Console → Hosting → sitio `getcoreup` → historial de versiones → "Revertir".
