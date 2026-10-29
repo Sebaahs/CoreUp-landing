@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import { resolve, dirname } from 'node:path';
 import { readFileSync } from 'node:fs';
@@ -113,7 +113,21 @@ function seoFiles() {
   };
 }
 
-export default defineConfig({
+/** Avisa en el build si falta la URL del backend del registro (ver DEPLOY.md). */
+function avisoEnvRegistro(mode) {
+  return {
+    name: 'aviso-env-registro',
+    apply: 'build',
+    buildStart() {
+      const env = loadEnv(mode, root, 'VITE_');
+      if (!env.VITE_API_URL) {
+        this.warn('Falta VITE_API_URL: el formulario de prueba gratis no va a poder enviar (ver DEPLOY.md).');
+      }
+    },
+  };
+}
+
+export default defineConfig(({ mode }) => ({
   base: '/',
   build: {
     outDir: 'dist',
@@ -127,5 +141,6 @@ export default defineConfig({
     htmlPartials(),
     seoFiles(),
     tailwindcss(),
+    avisoEnvRegistro(mode),
   ],
-});
+}));
