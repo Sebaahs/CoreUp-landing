@@ -17,17 +17,28 @@ import './style.css';
 import { API_URL, TURNSTILE_SITE_KEY, EMAIL_RE, initTurnstile, recortar } from './registro.js';
 
 const TIMEOUT_MS = 20000;
+/** Si el script de Turnstile no cargó en este tiempo, se avisa con opción de reintentar. */
+const TIMEOUT_TURNSTILE_MS = 10000;
 const TIPOS = ['arrepentimiento', 'baja'];
 const MAIL = 'contacto@getcoreup.com';
 
+/** Mismos topes que los del back (y que los que tenía el maxlength del HTML). */
+const MAX = { nombre: 120, email: 254, negocio: 120, motivo: 1000 };
+
 const MSJ = {
     nombre: 'Ingresá tu nombre.',
+    nombreLargo: `El nombre puede tener hasta ${MAX.nombre} caracteres.`,
     emailVacio: 'Ingresá tu email.',
     emailInvalido: 'Revisá el email: parece que le falta algo.',
-    turnstile: 'Esperá un segundo a que terminemos de verificar que no seas un robot.',
-    turnstileError: 'No pudimos cargar la verificación anti-robots.',
-    reintentar: 'Reintentar',
+    emailLargo: `El email puede tener hasta ${MAX.email} caracteres. Revisalo.`,
+    negocioLargo: `El nombre del negocio puede tener hasta ${MAX.negocio} caracteres.`,
+    motivoLargo: `El motivo puede tener hasta ${MAX.motivo} caracteres. Acortalo un poco.`,
+    turnstileCargando: 'Todavía estamos verificando que no seas un robot. Probá de nuevo en unos segundos.',
+    turnstileError: 'No pudimos cargar la verificación anti-robots. Puede ser un bloqueador de anuncios o la red en la que estás.',
+    reintentar: 'Reintentar la verificación',
     red: 'No pudimos conectarnos con CoreUp. Revisá tu conexión e intentá de nuevo.',
+    timeout: 'CoreUp está tardando en responder y no sabemos si tu pedido quedó registrado. Antes de reintentar, revisá tu mail: si te llegó un código, el pedido ya está hecho y no hace falta repetirlo. Si en unos minutos no te llegó nada, probá de nuevo o escribinos a ' + MAIL + '.',
+    sinCodigo: 'Recibimos una respuesta incompleta y puede que tu pedido haya quedado registrado. Revisá tu mail: si te llega un código, no lo repitas. Si en unos minutos no te llegó nada, probá de nuevo o escribinos a ' + MAIL + '.',
     servidor: 'Algo salió mal de nuestro lado. Probá de nuevo en unos minutos.',
     validacion: 'Revisá los datos e intentá de nuevo.',
     limite: 'Hiciste muchos intentos seguidos. Esperá unos minutos y probá de nuevo.',
@@ -57,8 +68,8 @@ function initPedidoConsumidor() {
     if (!API_URL) console.warn('[pedido] Falta VITE_API_URL: el formulario no puede enviar.');
 
     const turnstile = initTurnstile(
-        () => mostrarAlerta(MSJ.turnstileError, { reintentarTurnstile: true, sinFoco: true }),
-        { contenedorId: 'pedido-turnstile', action: 'pedido-consumidor' },
+        () => mostrarAlerta(`${MSJ.turnstileError} ${MSJ.respaldo}`, { reintentarTurnstile: true, sinFoco: true }),
+        { contenedorId: 'pedido-turnstile', action: 'pedido-consumidor', timeoutCargaMs: TIMEOUT_TURNSTILE_MS },
     );
 
     btn.disabled = false;
@@ -86,7 +97,11 @@ function initPedidoConsumidor() {
         }
 
         if (TURNSTILE_SITE_KEY && !turnstile.token()) {
-            mostrarAlerta(MSJ.turnstile, { reintentarTurnstile: turnstile.fallo() });
+            if (turnstile.fallo()) {
+                mostrarAlerta(`${MSJ.turnstileError} ${MSJ.respaldo}`, { reintentarTurnstile: true });
+            } else {
+                mostrarAlerta(`${MSJ.turnstileCargando} ${MSJ.respaldo}`);
+            }
             return;
         }
 
@@ -97,9 +112,9 @@ function initPedidoConsumidor() {
 
         let res;
         let json = null;
+        const ctrl = new AbortController();
         try {
             if (!API_URL) throw new Error('Sin VITE_API_URL');
-            const ctrl = new AbortController();
             const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
             try {
                 res = await fetch(`${API_URL}/public/pedidos-consumidor`, {
@@ -115,15 +130,17 @@ function initPedidoConsumidor() {
                 clearTimeout(timer);
             }
         } catch {
-            terminarConError(MSJ.red);
+            // Timeout: el pedido pudo haber llegado. Se avisa para que no lo dupliquen.
+            if (ctrl.signal.aborted) terminarConError(MSJ.timeout, { sinRespaldo: true });
+            else terminarConError(MSJ.red);
             return;
         }
 
         if (res.ok) {
             const codigo = json && typeof json.codigo === 'string' ? json.codigo.trim() : '';
             if (!codigo) {
-                // 2xx sin código: no se puede mostrar nada confiable. Que reintente o escriba.
-                terminarConError(MSJ.servidor);
+                // 2xx sin código: el pedido pudo haber quedado registrado.
+                terminarConError(MSJ.sinCodigo, { sinRespaldo: true });
                 return;
             }
             exito(codigo, json.recibidoEl);
@@ -131,12 +148,13 @@ function initPedidoConsumidor() {
         }
 
         const code = (json && json.code) || '';
-        const mensaje = recortar(json && json.message);
 
         if (code === 'LIM-429' || code === 'RATE_LIMITED' || res.status === 429) {
-            terminarConError(mensaje || MSJ.limite);
+            // Siempre el texto propio: el del rate limiter puede venir en inglés ("Too Many Requests").
+            terminarConError(MSJ.limite);
             return;
         }
+        const mensaje = mensajeServidor(json && json.message);
         if (code === 'VAL-400' || res.status === 400) {
             // Incluye el Turnstile inválido, que el back devuelve como 400 con su propio mensaje.
             const detalleEmail = detalleDeCampo(json && json.details, 'email');
@@ -170,12 +188,12 @@ function initPedidoConsumidor() {
         okPanel.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
 
-    function terminarConError(mensaje) {
+    function terminarConError(mensaje, { sinRespaldo = false } = {}) {
         enviando = false;
         setLoading(false);
         // El token de Turnstile es de un solo uso: después de cada intento hace falta otro.
         turnstile.reset();
-        mostrarAlerta(`${mensaje} ${MSJ.respaldo}`);
+        mostrarAlerta(sinRespaldo ? mensaje : `${mensaje} ${MSJ.respaldo}`);
     }
 
     function mostrarAlerta(mensaje, opciones = {}) {
@@ -186,12 +204,13 @@ function initPedidoConsumidor() {
         if (opciones.reintentarTurnstile) {
             const b = document.createElement('button');
             b.type = 'button';
-            b.className = 'reg-link cursor-pointer font-semibold underline';
+            b.className = 'footer-legal-link cursor-pointer font-semibold underline';
             b.textContent = MSJ.reintentar;
             b.addEventListener('click', () => {
                 alerta.textContent = '';
                 alerta.classList.add('hidden');
-                turnstile.reset();
+                // Si el script nunca cargó, lo vuelve a inyectar (reset() solo no alcanza).
+                turnstile.reintentar();
                 document.getElementById('pedido-turnstile')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
             });
             alerta.appendChild(b);
@@ -240,7 +259,7 @@ function initPedidoConsumidor() {
     }
 
     function limpiarTodo() {
-        ['nombre', 'email'].forEach(limpiarError);
+        Object.keys(MAX).forEach(limpiarError);
         alerta.textContent = '';
         alerta.classList.add('hidden');
     }
@@ -263,12 +282,35 @@ export function armarBody(tipo, d, token) {
     return body;
 }
 
+/**
+ * Los inputs no tienen maxlength: el navegador cortaría en silencio lo que se pega
+ * (un email cortado es un email equivocado). Los largos se validan acá, con mensaje.
+ */
 function validar(d) {
     const e = {};
     if (!d.nombre) e.nombre = MSJ.nombre;
+    else if (d.nombre.length > MAX.nombre) e.nombre = MSJ.nombreLargo;
     if (!d.email) e.email = MSJ.emailVacio;
+    else if (d.email.length > MAX.email) e.email = MSJ.emailLargo;
     else if (!EMAIL_RE.test(d.email)) e.email = MSJ.emailInvalido;
+    if (d.negocio.length > MAX.negocio) e.negocio = MSJ.negocioLargo;
+    if (d.motivo.length > MAX.motivo) e.motivo = MSJ.motivoLargo;
     return e;
+}
+
+/**
+ * El `message` del back solo se muestra si parece castellano y no es un default de Nest
+ * ("Bad Request", "Too Many Requests", "property x should not exist", ...). Si no, ''.
+ */
+const MENSAJE_GENERICO_RE = /^(bad request|too many requests|internal server error|forbidden|not found|unauthorized|unprocessable entity|service unavailable|throttlerexception)\b/i;
+const MENSAJE_INGLES_RE = /\b(must|should|property|is not|are not|exist|request|error|invalid|failed|the)\b/i;
+const MENSAJE_CASTELLANO_RE = /[áéíóúñ¿¡]|\b(el|la|los|las|de|que|no|tu|un|una|por|para|con|probá|revisá|intentá)\b/i;
+
+function mensajeServidor(valor) {
+    const m = recortar(valor);
+    if (!m) return '';
+    if (MENSAJE_GENERICO_RE.test(m) || MENSAJE_INGLES_RE.test(m)) return '';
+    return MENSAJE_CASTELLANO_RE.test(m) ? m : '';
 }
 
 /** "10/11/2026 a las 14:03" en hora de Argentina; '' si no es una fecha válida. */

@@ -398,15 +398,21 @@ export function initRegistro() {
  * carga nada y el token viaja vacío (el back local corre con TURNSTILE_BYPASS).
  * También lo usa src/pedidoConsumidor.js (botones de arrepentimiento y baja), con
  * otro contenedor y otra action. Un solo widget por página (el callback es global).
+ *
+ * Opcionales (el registro no los usa, así que para él nada cambia):
+ *   timeoutCargaMs — si el script no cargó en ese tiempo, se marca como fallado y se avisa (onError).
+ *   reintentar()   — como reset(), pero si el script no está cargado lo vuelve a inyectar.
  */
-export function initTurnstile(onError, { contenedorId = 'reg-turnstile', action = 'signup' } = {}) {
+export function initTurnstile(onError, { contenedorId = 'reg-turnstile', action = 'signup', timeoutCargaMs = null } = {}) {
     const cont = document.getElementById(contenedorId);
-    const noop = { token: () => '', reset: () => {}, fallo: () => false };
+    const noop = { token: () => '', reset: () => {}, reintentar: () => {}, fallo: () => false };
     if (!cont || !TURNSTILE_SITE_KEY) return noop;
 
     let widgetId = null;
     let token = '';
     let fallo = false;
+    let script = null;
+    let timerCarga = null;
 
     const render = () => {
         if (!window.turnstile || widgetId !== null) return;
@@ -431,27 +437,61 @@ export function initTurnstile(onError, { contenedorId = 'reg-turnstile', action 
         });
     };
 
-    window.__coreupTurnstileListo = render;
-    const s = document.createElement('script');
-    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__coreupTurnstileListo';
-    s.async = true;
-    s.defer = true;
-    s.onerror = () => { fallo = true; onError(); };
-    document.head.appendChild(s);
+    window.__coreupTurnstileListo = () => {
+        clearTimeout(timerCarga);
+        fallo = false;
+        render();
+    };
+
+    const cargarScript = () => {
+        if (script) script.remove();
+        const s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__coreupTurnstileListo';
+        s.async = true;
+        s.defer = true;
+        s.onerror = () => {
+            clearTimeout(timerCarga);
+            fallo = true;
+            onError();
+        };
+        script = s;
+        document.head.appendChild(s);
+        if (timeoutCargaMs) {
+            clearTimeout(timerCarga);
+            timerCarga = setTimeout(() => {
+                if (window.turnstile || fallo) return;
+                fallo = true;
+                onError();
+            }, timeoutCargaMs);
+        }
+    };
+    cargarScript();
+
+    const reset = () => {
+        token = '';
+        if (widgetId === null) {
+            // El script no había cargado: se intenta de nuevo.
+            if (window.turnstile) render();
+            return;
+        }
+        if (window.turnstile) {
+            try { window.turnstile.reset(widgetId); } catch { /* sin widget no hay nada que resetear */ }
+        }
+    };
 
     return {
         token: () => token || (widgetId !== null && window.turnstile ? window.turnstile.getResponse(widgetId) || '' : ''),
         fallo: () => fallo,
-        reset: () => {
-            token = '';
-            if (widgetId === null) {
-                // El script no había cargado: se intenta de nuevo.
-                if (window.turnstile) render();
+        reset,
+        reintentar: () => {
+            if (window.turnstile) {
+                reset();
                 return;
             }
-            if (window.turnstile) {
-                try { window.turnstile.reset(widgetId); } catch { /* sin widget no hay nada que resetear */ }
-            }
+            // El script nunca cargó (bloqueador, red): se vuelve a inyectar.
+            fallo = false;
+            token = '';
+            cargarScript();
         },
     };
 }
