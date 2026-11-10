@@ -271,17 +271,16 @@ function validar(d) {
     return e;
 }
 
-/** "10/11/2026, 14:03" en hora de Argentina; '' si no es una fecha válida. */
+/** "10/11/2026 a las 14:03" en hora de Argentina; '' si no es una fecha válida. */
 function formatearFecha(iso) {
     if (typeof iso !== 'string' || !iso) return '';
     const d = new Date(iso);
     if (Number.isNaN(d.getTime())) return '';
+    const tz = 'America/Argentina/Buenos_Aires';
     try {
-        return new Intl.DateTimeFormat('es-AR', {
-            dateStyle: 'short',
-            timeStyle: 'short',
-            timeZone: 'America/Argentina/Buenos_Aires',
-        }).format(d);
+        const fecha = new Intl.DateTimeFormat('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: tz }).format(d);
+        const hora = new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: tz }).format(d);
+        return `${fecha} a las ${hora}`;
     } catch {
         return d.toLocaleString('es-AR');
     }
