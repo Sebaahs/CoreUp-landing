@@ -18,6 +18,11 @@
  *
  * urlIngreso apunta a /ingreso-mock de este mismo server, que muestra el código
  * recibido (hace de Toolbox).
+ *
+ * También POST /public/pedidos-consumidor (botones de arrepentimiento y baja), con
+ * campos de más → 400 (como forbidNonWhitelisted del back) y, según el email:
+ *   "val" → 400 · "rate" → 429 RATE_LIMITED · "caida" → corta la conexión ·
+ *   "sincodigo" → 201 sin codigo · "lento" → 201 a los 3 s · otro → 201 { codigo, tipo, recibidoEl }
  */
 import { createServer } from 'node:http';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -65,6 +70,10 @@ const server = createServer((req, res) => {
 <body style="font-family:system-ui;padding:2rem"><h1>Toolbox (mock)</h1>
 <p>Llegó el código de ingreso: <code id="codigo">${String(url.searchParams.get('ingreso') || '').replace(/[^\w-]/g, '')}</code></p>
 <p>Acá Toolbox haría <code>POST /public/ingreso</code> y entraría a Primeros pasos.</p></body>`);
+    }
+
+    if (req.method === 'POST' && url.pathname === '/public/pedidos-consumidor') {
+        return pedidoConsumidor(req, res);
     }
 
     if (req.method !== 'POST' || url.pathname !== '/public/signup') {
@@ -126,6 +135,50 @@ const server = createServer((req, res) => {
         else responder();
     });
 });
+
+const CAMPOS_PEDIDO = ['tipo', 'email', 'nombre', 'negocio', 'motivo', 'turnstileToken'];
+
+function pedidoConsumidor(req, res) {
+    let raw = '';
+    req.on('data', (c) => { raw += c; });
+    req.on('end', () => {
+        let body;
+        try { body = JSON.parse(raw || '{}'); } catch { return error(req, res, 400, 'VAL-400', 'JSON inválido.'); }
+        console.log(`[mock] POST /public/pedidos-consumidor ${JSON.stringify(body)}`);
+
+        const email = String(body.email || '').toLowerCase();
+        if (email.includes('caida')) {
+            req.socket.destroy();
+            return;
+        }
+        const demas = Object.keys(body).filter((k) => !CAMPOS_PEDIDO.includes(k));
+        if (demas.length) {
+            return error(req, res, 400, 'VAL-400', 'Algunos datos no son válidos.', demas.map((k) => `property ${k} should not exist`));
+        }
+        const vacios = Object.entries(body).filter(([, v]) => typeof v !== 'string' || !v).map(([k]) => k);
+        if (!['arrepentimiento', 'baja'].includes(body.tipo) || !body.email || !body.nombre || vacios.length) {
+            return error(req, res, 400, 'VAL-400', 'Algunos datos no son válidos. Revisalos e intentá de nuevo.', vacios);
+        }
+        if (email.includes('val')) {
+            return error(req, res, 400, 'VAL-400', 'No pudimos verificar que no seas un robot. Probá de nuevo.', ['turnstileToken inválido']);
+        }
+        if (email.includes('rate')) {
+            return error(req, res, 429, 'RATE_LIMITED', 'Hiciste muchos intentos seguidos. Esperá unos minutos y probá de nuevo.');
+        }
+        const responder = () => {
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            if (email.includes('sincodigo')) return res.end(JSON.stringify({ tipo: body.tipo }));
+            const prefijo = body.tipo === 'baja' ? 'BAJ' : 'ARR';
+            res.end(JSON.stringify({
+                codigo: `${prefijo}-${randomBytes(4).toString('hex').toUpperCase()}`,
+                tipo: body.tipo,
+                recibidoEl: new Date().toISOString(),
+            }));
+        };
+        if (email.includes('lento')) setTimeout(responder, 3000);
+        else responder();
+    });
+}
 
 server.listen(PORT, () => {
     console.log(`[mock] /public/signup escuchando en http://localhost:${PORT} (CORS: ${ORIGENES.join(', ')})`);

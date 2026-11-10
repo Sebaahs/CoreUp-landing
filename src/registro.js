@@ -20,8 +20,8 @@
 import { datosCampana, nuevoEventId } from './campaign.js';
 
 const ENV = import.meta.env;
-const API_URL = (ENV.VITE_API_URL || (ENV.DEV ? 'http://localhost:3000' : '')).replace(/\/+$/, '');
-const TURNSTILE_SITE_KEY = ENV.VITE_TURNSTILE_SITE_KEY || '';
+export const API_URL = (ENV.VITE_API_URL || (ENV.DEV ? 'http://localhost:3000' : '')).replace(/\/+$/, '');
+export const TURNSTILE_SITE_KEY = ENV.VITE_TURNSTILE_SITE_KEY || '';
 const TERMS_VERSION = ENV.VITE_TERMS_VERSION || '2026-10-borrador';
 const TOOLBOX_URL = (ENV.VITE_TOOLBOX_URL || 'https://coreuptoolbox.web.app').replace(/\/+$/, '') + '/';
 
@@ -247,7 +247,8 @@ export function initRegistro() {
             b.addEventListener('click', () => {
                 alerta.textContent = '';
                 alerta.classList.add('hidden');
-                turnstile.reset();
+                // Si el script nunca cargó (bloqueador, red), lo vuelve a inyectar.
+                turnstile.reintentar();
                 document.getElementById('reg-turnstile')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
             });
             alerta.appendChild(b);
@@ -396,15 +397,23 @@ export function initRegistro() {
 /**
  * Carga el widget de Cloudflare Turnstile en modo explícito. Sin site key no
  * carga nada y el token viaja vacío (el back local corre con TURNSTILE_BYPASS).
+ * También lo usa src/pedidoConsumidor.js (botones de arrepentimiento y baja), con
+ * otro contenedor y otra action. Un solo widget por página (el callback es global).
+ *
+ * Opcionales (el registro no los usa, así que para él nada cambia):
+ *   timeoutCargaMs — si el script no cargó en ese tiempo, se marca como fallado y se avisa (onError).
+ *   reintentar()   — como reset(), pero si el script no está cargado lo vuelve a inyectar.
  */
-function initTurnstile(onError) {
-    const cont = document.getElementById('reg-turnstile');
-    const noop = { token: () => '', reset: () => {}, fallo: () => false };
+export function initTurnstile(onError, { contenedorId = 'reg-turnstile', action = 'signup', timeoutCargaMs = null } = {}) {
+    const cont = document.getElementById(contenedorId);
+    const noop = { token: () => '', reset: () => {}, reintentar: () => {}, fallo: () => false };
     if (!cont || !TURNSTILE_SITE_KEY) return noop;
 
     let widgetId = null;
     let token = '';
     let fallo = false;
+    let script = null;
+    let timerCarga = null;
 
     const render = () => {
         if (!window.turnstile || widgetId !== null) return;
@@ -413,7 +422,7 @@ function initTurnstile(onError) {
             theme: 'light',
             size: 'flexible',
             language: 'es',
-            action: 'signup',
+            action,
             callback: (t) => {
                 token = t;
                 fallo = false;
@@ -429,27 +438,61 @@ function initTurnstile(onError) {
         });
     };
 
-    window.__coreupTurnstileListo = render;
-    const s = document.createElement('script');
-    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__coreupTurnstileListo';
-    s.async = true;
-    s.defer = true;
-    s.onerror = () => { fallo = true; onError(); };
-    document.head.appendChild(s);
+    window.__coreupTurnstileListo = () => {
+        clearTimeout(timerCarga);
+        fallo = false;
+        render();
+    };
+
+    const cargarScript = () => {
+        if (script) script.remove();
+        const s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__coreupTurnstileListo';
+        s.async = true;
+        s.defer = true;
+        s.onerror = () => {
+            clearTimeout(timerCarga);
+            fallo = true;
+            onError();
+        };
+        script = s;
+        document.head.appendChild(s);
+        if (timeoutCargaMs) {
+            clearTimeout(timerCarga);
+            timerCarga = setTimeout(() => {
+                if (window.turnstile || fallo) return;
+                fallo = true;
+                onError();
+            }, timeoutCargaMs);
+        }
+    };
+    cargarScript();
+
+    const reset = () => {
+        token = '';
+        if (widgetId === null) {
+            // El script no había cargado: se intenta de nuevo.
+            if (window.turnstile) render();
+            return;
+        }
+        if (window.turnstile) {
+            try { window.turnstile.reset(widgetId); } catch { /* sin widget no hay nada que resetear */ }
+        }
+    };
 
     return {
         token: () => token || (widgetId !== null && window.turnstile ? window.turnstile.getResponse(widgetId) || '' : ''),
         fallo: () => fallo,
-        reset: () => {
-            token = '';
-            if (widgetId === null) {
-                // El script no había cargado: se intenta de nuevo.
-                if (window.turnstile) render();
+        reset,
+        reintentar: () => {
+            if (window.turnstile) {
+                reset();
                 return;
             }
-            if (window.turnstile) {
-                try { window.turnstile.reset(widgetId); } catch { /* sin widget no hay nada que resetear */ }
-            }
+            // El script nunca cargó (bloqueador, red): se vuelve a inyectar.
+            fallo = false;
+            token = '';
+            cargarScript();
         },
     };
 }
@@ -461,7 +504,7 @@ function initTurnstile(onError) {
  * puntos al borde, dominio con etiquetas alfanuméricas (guiones en el medio) y TLD de
  * 2+ letras. Sin puntos dobles en ningún lado.
  */
-const EMAIL_RE = /^(?!\.)(?!.*\.\.)[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]{1,64}(?<!\.)@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,63}$/;
+export const EMAIL_RE = /^(?!\.)(?!.*\.\.)[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]{1,64}(?<!\.)@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,63}$/;
 
 function validar(d) {
     const e = {};
@@ -507,7 +550,7 @@ function urlSegura(valor) {
 }
 
 /** Mensaje del servidor, limpio y con tope de largo. */
-function recortar(valor) {
+export function recortar(valor) {
     if (typeof valor !== 'string') return '';
     const t = valor.trim();
     return t.length > MAX_MENSAJE ? t.slice(0, MAX_MENSAJE - 1) + '…' : t;

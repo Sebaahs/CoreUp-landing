@@ -50,12 +50,32 @@ que estar definidas **antes** del `npm run deploy`. Son públicas: no van secret
   el usuario ve el mensaje de red caída. En local: `http://localhost:5173`.
 - `VITE_TERMS_VERSION` distinta de `TERMS_VERSION` del back → todas las altas dan `VAL-400`.
 - La secret key de Turnstile (`TURNSTILE_SECRET`) va solo en el backend.
-- `/terminos/` todavía no existe: hay que publicarla antes de abrir el registro en prod.
+
+### ⚠️ Páginas legales placeholder: no publicar `master` con el registro abierto
+
+La casilla del registro enlaza `/terminos/` y `/privacidad-plataforma/`. **Las dos son placeholders**
+(dicen que el texto se publica antes de abrir el registro, tienen `noindex`, están fuera del sitemap y
+llevan un `<!-- TODO legal: reemplazar por … v1 -->`). **No se puede publicar `master` con el registro
+abierto mientras sigan así.** Cuando haya texto v1 aprobado: reemplazar el contenido, sacar el `noindex`
+y el `sitemap: false` de `PAGINAS` en `vite.config.js`, y pasar `VITE_TERMS_VERSION` / `TERMS_VERSION`
+al id de la v1. `/privacidad/` es la política de la landing (leads) y es otra cosa.
+
+### Botón de arrepentimiento y botón de baja de servicio
+
+El pie (`partials/footer.html`) enlaza `/arrepentimiento/` y `/baja/` (Disp. SSDCyLC 954/2025) y muestra
+el canal, el área responsable y el horario de atención. Los dos formularios (`src/pedidoConsumidor.js`)
+llaman a `POST {VITE_API_URL}/public/pedidos-consumidor` con las mismas `VITE_API_URL` y
+`VITE_TURNSTILE_SITE_KEY` del registro (Turnstile con la action `pedido-consumidor`). **Antes de
+publicar, ese endpoint tiene que estar vivo en el backend de prod** (con `getcoreup.com` en
+`ALLOWED_ORIGINS`); si no, los botones muestran el error de red. `/privacidad/` y
+`/drivers/privacidad/` tienen pie propio: incluyen `partials/footer-atencion-simple.html`, con el mismo
+contenido (si cambia uno, cambiá el otro). Toda página nueva tiene que mostrar los botones en el pie.
 
 ### Probar en local
 
 Sin backend, con el mock (responde según el email: `dup` → 409, `val` → 400, `rate` → 429,
-`caida` → corta la conexión, `lento` → 201 con 3 s de demora, cualquier otro → 201):
+`caida` → corta la conexión, `lento` → 201 con 3 s de demora, cualquier otro → 201; también responde
+`/public/pedidos-consumidor`, ver la cabecera de `mock/signup-mock.mjs`):
 
 ```bash
 cp .env.example .env.local
