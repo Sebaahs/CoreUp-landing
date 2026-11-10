@@ -39,6 +39,12 @@ src/                     →  style.css, main.js y los módulos de JS
 public/                  →  favicon.svg y las imágenes de Open Graph
 ```
 
+Además hay páginas legales y de pedido, sin píxel ni `main.js`
+(`partials/head-legal.html` + `header-legal.html`): `/arrepentimiento/` y `/baja/`
+(Disp. 954/2025, `src/pedidoConsumidor.js`, enlazadas desde el pie: no las saques),
+`/terminos/` y `/privacidad-plataforma/` (placeholders, ver `DEPLOY.md`), `/privacidad/`
+y `/drivers/privacidad/`.
+
 Los partials se resuelven **en tiempo de build** con un plugin propio que vive
 en `vite.config.js` (unas 30 líneas, sin dependencias):
 

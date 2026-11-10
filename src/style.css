@@ -314,3 +314,30 @@ input.reg-check {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ===== Pie: botones de arrepentimiento y baja (Disp. 954/2025) ===== */
+/* Clase propia y no a.border-space-edge: esa es la regla del botón outline del sitio. */
+.footer-legal-btn {
+  border-color: rgba(79, 110, 247, 0.45);
+  background-color: #ffffff;
+  color: var(--color-pink-accent);
+}
+.footer-legal-btn:hover {
+  border-color: var(--color-pink-accent);
+  background-color: rgba(79, 110, 247, 0.08);
+}
+.footer-legal-btn:focus-visible,
+.footer-legal-link:focus-visible {
+  outline: 2px solid var(--color-violet-primary);
+  outline-offset: 2px;
+}
+.footer-legal-link {
+  color: var(--color-pink-accent);
+}
+
+/* ===== Páginas de pedido (arrepentimiento / baja) ===== */
+.pedido-codigo {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.06em;
+  word-break: break-all;
+}

@@ -20,8 +20,8 @@
 import { datosCampana, nuevoEventId } from './campaign.js';
 
 const ENV = import.meta.env;
-const API_URL = (ENV.VITE_API_URL || (ENV.DEV ? 'http://localhost:3000' : '')).replace(/\/+$/, '');
-const TURNSTILE_SITE_KEY = ENV.VITE_TURNSTILE_SITE_KEY || '';
+export const API_URL = (ENV.VITE_API_URL || (ENV.DEV ? 'http://localhost:3000' : '')).replace(/\/+$/, '');
+export const TURNSTILE_SITE_KEY = ENV.VITE_TURNSTILE_SITE_KEY || '';
 const TERMS_VERSION = ENV.VITE_TERMS_VERSION || '2026-10-borrador';
 const TOOLBOX_URL = (ENV.VITE_TOOLBOX_URL || 'https://coreuptoolbox.web.app').replace(/\/+$/, '') + '/';
 
@@ -396,9 +396,11 @@ export function initRegistro() {
 /**
  * Carga el widget de Cloudflare Turnstile en modo explícito. Sin site key no
  * carga nada y el token viaja vacío (el back local corre con TURNSTILE_BYPASS).
+ * También lo usa src/pedidoConsumidor.js (botones de arrepentimiento y baja), con
+ * otro contenedor y otra action. Un solo widget por página (el callback es global).
  */
-function initTurnstile(onError) {
-    const cont = document.getElementById('reg-turnstile');
+export function initTurnstile(onError, { contenedorId = 'reg-turnstile', action = 'signup' } = {}) {
+    const cont = document.getElementById(contenedorId);
     const noop = { token: () => '', reset: () => {}, fallo: () => false };
     if (!cont || !TURNSTILE_SITE_KEY) return noop;
 
@@ -413,7 +415,7 @@ function initTurnstile(onError) {
             theme: 'light',
             size: 'flexible',
             language: 'es',
-            action: 'signup',
+            action,
             callback: (t) => {
                 token = t;
                 fallo = false;
@@ -461,7 +463,7 @@ function initTurnstile(onError) {
  * puntos al borde, dominio con etiquetas alfanuméricas (guiones en el medio) y TLD de
  * 2+ letras. Sin puntos dobles en ningún lado.
  */
-const EMAIL_RE = /^(?!\.)(?!.*\.\.)[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]{1,64}(?<!\.)@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,63}$/;
+export const EMAIL_RE = /^(?!\.)(?!.*\.\.)[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]{1,64}(?<!\.)@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,63}$/;
 
 function validar(d) {
     const e = {};
@@ -507,7 +509,7 @@ function urlSegura(valor) {
 }
 
 /** Mensaje del servidor, limpio y con tope de largo. */
-function recortar(valor) {
+export function recortar(valor) {
     if (typeof valor !== 'string') return '';
     const t = valor.trim();
     return t.length > MAX_MENSAJE ? t.slice(0, MAX_MENSAJE - 1) + '…' : t;

@@ -24,6 +24,14 @@ const PAGINAS = [
   // Politica de privacidad de la app de choferes. Prioridad baja: es una pagina
   // legal, tiene que estar indexada pero no compite con las comerciales.
   { entrada: 'driversPrivacidad', archivo: 'drivers/privacidad/index.html', ruta: '/drivers/privacidad/', prioridad: '0.3' },
+  // "Botón de arrepentimiento" y "Botón de baja de servicio" (Disp. SSDCyLC 954/2025),
+  // enlazados desde el pie de todas las páginas que usan partials/footer.html.
+  { entrada: 'arrepentimiento', archivo: 'arrepentimiento/index.html', ruta: '/arrepentimiento/', prioridad: '0.3' },
+  { entrada: 'baja', archivo: 'baja/index.html', ruta: '/baja/', prioridad: '0.3' },
+  // PLACEHOLDERS (ver DEPLOY.md): noindex y fuera del sitemap hasta que tengan el texto v1.
+  // Al publicar el texto: sacar `sitemap: false` y el noindex de la página.
+  { entrada: 'terminos', archivo: 'terminos/index.html', ruta: '/terminos/', prioridad: '0.3', sitemap: false },
+  { entrada: 'privacidadPlataforma', archivo: 'privacidad-plataforma/index.html', ruta: '/privacidad-plataforma/', prioridad: '0.3', sitemap: false },
 ];
 
 /**
@@ -96,7 +104,7 @@ function seoFiles() {
         source: [
           '<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-          ...PAGINAS.map((p) =>
+          ...PAGINAS.filter((p) => p.sitemap !== false).map((p) =>
             [
               '  <url>',
               `    <loc>${SITE}${p.ruta}</loc>`,

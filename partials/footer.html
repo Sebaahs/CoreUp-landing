@@ -1,17 +1,47 @@
+<!--
+  Pie compartido (home, /operacional, /flota y las páginas de pedido y legales).
+  Los dos botones y el bloque de atención los pide la Disposición SSDCyLC 954/2025:
+  visibles desde el primer acceso, sin registración previa, con canal, área responsable
+  y horario de atención. No los saques ni los escondas detrás de un menú.
+-->
 <footer class="border-t border-space-edge bg-space-deep px-4 py-8">
-  <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-6 sm:flex-row">
-    <a href="/" class="flex items-center gap-3">
-      <img src="/src/coreup-solo-texto.svg" alt="CoreUp" class="h-8 md:h-10" />
-    </a>
+  <div class="mx-auto flex max-w-5xl flex-col gap-8">
+    <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/src/coreup-solo-texto.svg" alt="CoreUp" class="h-8 md:h-10" />
+      </a>
 
-    <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
-      <a href="/operacional/" class="text-gray-500 transition-colors hover:text-violet-primary">Comercio y
-        producción</a>
-      <a href="/flota/" class="text-gray-500 transition-colors hover:text-violet-primary">Flota</a>
-      <a href="/privacidad/" class="text-gray-500 transition-colors hover:text-violet-primary">Privacidad</a>
-    </nav>
+      <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
+        <a href="/operacional/" class="text-gray-500 transition-colors hover:text-violet-primary">Comercio y
+          producción</a>
+        <a href="/flota/" class="text-gray-500 transition-colors hover:text-violet-primary">Flota</a>
+        <a href="/privacidad/" class="text-gray-500 transition-colors hover:text-violet-primary">Privacidad</a>
+      </nav>
+    </div>
 
-    <p class="text-xs text-gray-500">
+    <div class="grid gap-6 border-t border-space-edge pt-6 text-sm sm:grid-cols-2">
+      <!-- Botones de la Disp. 954/2025: nombres exactos, sin login. -->
+      <div class="flex flex-col items-center gap-3 sm:items-start">
+        <a href="/arrepentimiento/"
+          class="footer-legal-btn inline-flex w-full items-center justify-center rounded-lg border px-4 py-2.5 font-semibold transition-colors sm:w-auto">
+          Botón de arrepentimiento
+        </a>
+        <a href="/baja/"
+          class="footer-legal-btn inline-flex w-full items-center justify-center rounded-lg border px-4 py-2.5 font-semibold transition-colors sm:w-auto">
+          Botón de baja de servicio
+        </a>
+      </div>
+
+      <div class="text-center text-slate-600 sm:text-left">
+        <p class="font-semibold text-slate-900">Atención al cliente</p>
+        <p class="mt-1">Área responsable: Atención al cliente de CoreUp</p>
+        <p class="mt-1">Canal: <a href="mailto:contacto@getcoreup.com"
+            class="footer-legal-link font-medium underline">contacto@getcoreup.com</a></p>
+        <p class="mt-1">Horario: lunes a viernes de 9 a 17 (hora de Argentina)</p>
+      </div>
+    </div>
+
+    <p class="text-center text-xs text-gray-500">
       © 2026 CoreUp. Transformando datos en decisiones.
     </p>
   </div>
