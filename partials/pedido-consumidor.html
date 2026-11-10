@@ -1,4 +1,4 @@
-<!--
+<!--#
   Formulario de los botones de la Disp. SSDCyLC 954/2025 ("Botón de arrepentimiento" y
   "Botón de baja de servicio"). Sin login. Lo usan /arrepentimiento/ y /baja/.
   La lógica está en src/pedidoConsumidor.js: POST {VITE_API_URL}/public/pedidos-consumidor.
@@ -17,13 +17,14 @@
   </div>
 
   <div class="rounded-2xl border border-space-edge bg-white p-6 shadow-xl sm:p-8">
-    <!-- method=post + action="#": sin JS nunca viaja nada por la query string; el botón lo habilita el JS. -->
+    <!--# method=post + action="#": sin JS nunca viaja nada por la query string; el botón lo habilita el JS.
+         Sin maxlength: el navegador cortaría en silencio lo pegado. Los largos los valida el JS. -->
     <form id="pedido-form" class="space-y-5" method="post" action="#" novalidate data-tipo="{{tipo}}"
       aria-labelledby="pedido-titulo">
       <noscript>
         <p class="rounded-lg border px-4 py-3 text-sm text-slate-700">Para enviar el pedido desde acá necesitás tener
           JavaScript activado. También podés escribirnos a
-          <a href="mailto:contacto@getcoreup.com" class="reg-link underline">contacto@getcoreup.com</a>.</p>
+          <a href="mailto:contacto@getcoreup.com" class="footer-legal-link underline">contacto@getcoreup.com</a>.</p>
       </noscript>
 
       <div id="pedido-alerta" role="alert" aria-live="assertive" tabindex="-1"
@@ -31,7 +32,7 @@
 
       <div>
         <label for="pedido-nombre" class="mb-1.5 block text-sm font-medium text-slate-700">Tu nombre</label>
-        <input id="pedido-nombre" name="nombre" type="text" required autocomplete="name" maxlength="120"
+        <input id="pedido-nombre" name="nombre" type="text" required autocomplete="name"
           aria-describedby="pedido-nombre-error"
           class="w-full rounded-lg border border-space-edge bg-white px-4 py-3 text-base text-slate-900 placeholder-gray-400 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40 sm:text-sm"
           placeholder="Ej: Ana Pérez" />
@@ -41,7 +42,7 @@
       <div>
         <label for="pedido-email" class="mb-1.5 block text-sm font-medium text-slate-700">Email</label>
         <input id="pedido-email" name="email" type="email" required autocomplete="email" inputmode="email"
-          autocapitalize="off" spellcheck="false" maxlength="254" aria-describedby="pedido-email-ayuda pedido-email-error"
+          autocapitalize="off" spellcheck="false" aria-describedby="pedido-email-ayuda pedido-email-error"
           class="w-full rounded-lg border border-space-edge bg-white px-4 py-3 text-base text-slate-900 placeholder-gray-400 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40 sm:text-sm"
           placeholder="vos@tunegocio.com" />
         <p id="pedido-email-ayuda" class="mt-1 text-xs text-slate-500">El de tu cuenta, si tenés una. Ahí te mandamos
@@ -52,20 +53,22 @@
       <div>
         <label for="pedido-negocio" class="mb-1.5 block text-sm font-medium text-slate-700">Nombre del negocio <span
             class="font-normal text-slate-500">(opcional)</span></label>
-        <input id="pedido-negocio" name="negocio" type="text" autocomplete="organization" maxlength="120"
+        <input id="pedido-negocio" name="negocio" type="text" autocomplete="organization" aria-describedby="pedido-negocio-error"
           class="w-full rounded-lg border border-space-edge bg-white px-4 py-3 text-base text-slate-900 placeholder-gray-400 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40 sm:text-sm"
           placeholder="Ej: Tienda Ana" />
+        <p id="pedido-negocio-error" class="pedido-error mt-1 hidden text-xs text-red-600" data-pedido-error="negocio"></p>
       </div>
 
       <div>
         <label for="pedido-motivo" class="mb-1.5 block text-sm font-medium text-slate-700">{{motivoLabel}} <span
             class="font-normal text-slate-500">(opcional)</span></label>
-        <textarea id="pedido-motivo" name="motivo" rows="3" maxlength="1000"
+        <textarea id="pedido-motivo" name="motivo" rows="3" aria-describedby="pedido-motivo-error"
           class="w-full rounded-lg border border-space-edge bg-white px-4 py-3 text-base text-slate-900 placeholder-gray-400 outline-none transition-all duration-200 focus:border-violet-primary focus:ring-2 focus:ring-violet-primary/40 sm:text-sm"
           placeholder="No es obligatorio."></textarea>
+        <p id="pedido-motivo-error" class="pedido-error mt-1 hidden text-xs text-red-600" data-pedido-error="motivo"></p>
       </div>
 
-      <!-- Turnstile (Cloudflare). Se renderiza solo si hay VITE_TURNSTILE_SITE_KEY. -->
+      <!--# Turnstile (Cloudflare). Se renderiza solo si hay VITE_TURNSTILE_SITE_KEY. -->
       <div id="pedido-turnstile" class="min-h-0"></div>
 
       <button id="pedido-submit" type="submit" disabled aria-disabled="true"
@@ -84,12 +87,12 @@
         <p class="font-semibold text-slate-700">Qué pasa después</p>
         <p class="mt-1">Al enviar, te mostramos un código de identificación del pedido y te lo mandamos por mail. Con
           ese código podés seguirlo con Atención al cliente de CoreUp en
-          <a href="mailto:contacto@getcoreup.com" class="reg-link underline">contacto@getcoreup.com</a>, de lunes a
+          <a href="mailto:contacto@getcoreup.com" class="footer-legal-link underline">contacto@getcoreup.com</a>, de lunes a
           viernes de 9 a 17 (hora de Argentina).</p>
       </div>
     </form>
 
-    <!-- Pedido recibido: código grande y copiable. -->
+    <!--# Pedido recibido: código grande y copiable. -->
     <div id="pedido-ok" class="hidden text-center" role="status" aria-live="polite">
       <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-teal-accent/20">
         <svg class="h-7 w-7 text-teal-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
@@ -104,11 +107,11 @@
         class="footer-legal-btn mt-3 inline-flex cursor-pointer items-center justify-center rounded-lg border px-4 py-2 text-sm font-semibold transition-colors">
         Copiar código
       </button>
-      <p id="pedido-copiado" class="mt-2 hidden text-xs text-teal-accent" aria-live="polite"></p>
+      <p id="pedido-copiado" class="pedido-copiado mt-2 hidden text-xs" aria-live="polite"></p>
       <p id="pedido-fecha" class="mt-4 text-sm text-slate-600"></p>
       <p class="mt-4 text-sm text-slate-600">También te lo mandamos por mail. Guardalo: lo vas a necesitar si nos
         escribís por este pedido a <a href="mailto:contacto@getcoreup.com"
-          class="reg-link underline">contacto@getcoreup.com</a> (lunes a viernes de 9 a 17, hora de Argentina).</p>
+          class="footer-legal-link underline">contacto@getcoreup.com</a> (lunes a viernes de 9 a 17, hora de Argentina).</p>
     </div>
   </div>
 </main>

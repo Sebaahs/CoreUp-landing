@@ -45,6 +45,7 @@ const PAGINAS = [
  * runtime ni problemas de SEO.
  */
 const INCLUDE_RE = /<!--@include\s+([^\s>]+)((?:\s+[a-zA-Z0-9_-]+="[^"]*")*)\s*-->/g;
+const BUILD_COMMENT_RE = /[ \t]*<!--#[\s\S]*?-->[ \t]*\r?\n?/g;
 const GLOBALES = { site: SITE };
 
 function htmlPartials() {
@@ -62,7 +63,9 @@ function htmlPartials() {
         );
       });
     }
-    return out;
+    // Comentarios de build: <!--# ... --> se ven en el código fuente pero no llegan al navegador.
+    // Para notas internas (TODOs, "no publicar", "no lo saques"). Los <!-- --> comunes quedan.
+    return out.replace(BUILD_COMMENT_RE, '');
   };
 
   return {

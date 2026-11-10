@@ -56,6 +56,10 @@ Lee el archivo, reemplaza los `{{parametros}}` por los atributos del include y
 lo pega. Lo que llega al navegador es HTML plano: sin costo en runtime y sin
 problemas de SEO. Un partial puede incluir a otro (hace tres pasadas).
 
+**Comentarios de build**: `<!--# ... -->` se ve en el código fuente pero el mismo plugin
+lo borra, así que no llega a `dist/`. Usalo para notas internas (TODOs, "no publicar",
+"no lo saques"); los `<!-- -->` comunes sí llegan al navegador.
+
 **Agregar una página** = una entrada en el array `PAGINAS` de `vite.config.js`.
 De ahí salen también el sitemap y las entradas del build.
 
