@@ -68,7 +68,8 @@ llaman a `POST {VITE_API_URL}/public/pedidos-consumidor` con las mismas `VITE_AP
 `VITE_TURNSTILE_SITE_KEY` del registro (Turnstile con la action `pedido-consumidor`). **Antes de
 publicar, ese endpoint tiene que estar vivo en el backend de prod** (con `getcoreup.com` en
 `ALLOWED_ORIGINS`); si no, los botones muestran el error de red. `/privacidad/` y
-`/drivers/privacidad/` tienen pie propio y no muestran los botones.
+`/drivers/privacidad/` tienen pie propio: incluyen `partials/footer-atencion-simple.html`, con el mismo
+contenido (si cambia uno, cambiá el otro). Toda página nueva tiene que mostrar los botones en el pie.
 
 ### Probar en local
 

@@ -1,0 +1,32 @@
+<!--
+  Botones de la Disp. SSDCyLC 954/2025 + Atención al cliente, para las páginas con pie
+  propio que no cargan src/style.css (/privacidad/ y /drivers/privacidad/). Estilos propios
+  (prefijo cu-legal-) para no depender de Tailwind. Mismo contenido que partials/footer.html:
+  si cambia uno, cambiá el otro.
+-->
+<style>
+  .cu-legal { flex-basis:100%; display:grid; gap:16px; padding-bottom:16px; margin-bottom:4px;
+    border-bottom:1px solid #e2e8f0; font-size:14px; line-height:1.5; }
+  @media (min-width:640px) { .cu-legal { grid-template-columns:1fr 1fr; } }
+  .cu-legal-btns { display:flex; flex-direction:column; gap:10px; align-items:stretch; }
+  @media (min-width:640px) { .cu-legal-btns { align-items:flex-start; } }
+  .cu-legal-btn { display:inline-flex; justify-content:center; padding:10px 16px; border-radius:8px;
+    border:1px solid rgba(79,110,247,.45); background:#ffffff; color:#4f6ef7; font-weight:600;
+    text-decoration:none; }
+  .cu-legal-btn:hover { border-color:#4f6ef7; background:rgba(79,110,247,.08); }
+  .cu-legal-btn:focus-visible { outline:2px solid #8a8cf3; outline-offset:2px; }
+  .cu-legal-atencion p { margin:0 0 4px; color:#475569; }
+  .cu-legal-atencion p.cu-legal-titulo { color:#0f172a; font-weight:600; }
+</style>
+<div class="cu-legal">
+  <div class="cu-legal-btns">
+    <a href="/arrepentimiento/" class="cu-legal-btn">Botón de arrepentimiento</a>
+    <a href="/baja/" class="cu-legal-btn">Botón de baja de servicio</a>
+  </div>
+  <div class="cu-legal-atencion">
+    <p class="cu-legal-titulo">Atención al cliente</p>
+    <p>Área responsable: Atención al cliente de CoreUp</p>
+    <p>Canal: <a href="mailto:contacto@getcoreup.com">contacto@getcoreup.com</a></p>
+    <p>Horario: lunes a viernes de 9 a 17 (hora de Argentina)</p>
+  </div>
+</div>
