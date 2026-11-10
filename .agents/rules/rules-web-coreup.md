@@ -39,6 +39,12 @@ src/                     →  style.css, main.js y los módulos de JS
 public/                  →  favicon.svg y las imágenes de Open Graph
 ```
 
+Además hay páginas legales y de pedido, sin píxel ni `main.js`
+(`partials/head-legal.html` + `header-legal.html`): `/arrepentimiento/` y `/baja/`
+(Disp. 954/2025, `src/pedidoConsumidor.js`, enlazadas desde el pie: no las saques),
+`/terminos/` y `/privacidad-plataforma/` (placeholders, ver `DEPLOY.md`), `/privacidad/`
+y `/drivers/privacidad/`.
+
 Los partials se resuelven **en tiempo de build** con un plugin propio que vive
 en `vite.config.js` (unas 30 líneas, sin dependencias):
 
@@ -49,6 +55,10 @@ en `vite.config.js` (unas 30 líneas, sin dependencias):
 Lee el archivo, reemplaza los `{{parametros}}` por los atributos del include y
 lo pega. Lo que llega al navegador es HTML plano: sin costo en runtime y sin
 problemas de SEO. Un partial puede incluir a otro (hace tres pasadas).
+
+**Comentarios de build**: `<!--# ... -->` se ve en el código fuente pero el mismo plugin
+lo borra, así que no llega a `dist/`. Usalo para notas internas (TODOs, "no publicar",
+"no lo saques"); los `<!-- -->` comunes sí llegan al navegador.
 
 **Agregar una página** = una entrada en el array `PAGINAS` de `vite.config.js`.
 De ahí salen también el sitemap y las entradas del build.

@@ -3,6 +3,7 @@ import { initParticles } from './particles.js';
 import { initScrollStory } from './scrollStory.js';
 import { initCursorGlow } from './cursorGlow.js';
 import { initForm } from './form.js';
+import { initRegistro } from './registro.js';
 import { initHeroSlider } from './heroSlider.js';
 import { capturarCampana } from './campaign.js';
 
@@ -14,5 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollStory();
     initCursorGlow();
     initForm();
+    initRegistro();
     initHeroSlider();
 });

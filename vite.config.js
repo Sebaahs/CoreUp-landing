@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import { resolve, dirname } from 'node:path';
 import { readFileSync } from 'node:fs';
@@ -24,6 +24,14 @@ const PAGINAS = [
   // Politica de privacidad de la app de choferes. Prioridad baja: es una pagina
   // legal, tiene que estar indexada pero no compite con las comerciales.
   { entrada: 'driversPrivacidad', archivo: 'drivers/privacidad/index.html', ruta: '/drivers/privacidad/', prioridad: '0.3' },
+  // "Botón de arrepentimiento" y "Botón de baja de servicio" (Disp. SSDCyLC 954/2025),
+  // enlazados desde el pie de todas las páginas que usan partials/footer.html.
+  { entrada: 'arrepentimiento', archivo: 'arrepentimiento/index.html', ruta: '/arrepentimiento/', prioridad: '0.3' },
+  { entrada: 'baja', archivo: 'baja/index.html', ruta: '/baja/', prioridad: '0.3' },
+  // PLACEHOLDERS (ver DEPLOY.md): noindex y fuera del sitemap hasta que tengan el texto v1.
+  // Al publicar el texto: sacar `sitemap: false` y el noindex de la página.
+  { entrada: 'terminos', archivo: 'terminos/index.html', ruta: '/terminos/', prioridad: '0.3', sitemap: false },
+  { entrada: 'privacidadPlataforma', archivo: 'privacidad-plataforma/index.html', ruta: '/privacidad-plataforma/', prioridad: '0.3', sitemap: false },
 ];
 
 /**
@@ -37,6 +45,7 @@ const PAGINAS = [
  * runtime ni problemas de SEO.
  */
 const INCLUDE_RE = /<!--@include\s+([^\s>]+)((?:\s+[a-zA-Z0-9_-]+="[^"]*")*)\s*-->/g;
+const BUILD_COMMENT_RE = /[ \t]*<!--#[\s\S]*?-->[ \t]*\r?\n?/g;
 const GLOBALES = { site: SITE };
 
 function htmlPartials() {
@@ -54,7 +63,9 @@ function htmlPartials() {
         );
       });
     }
-    return out;
+    // Comentarios de build: <!--# ... --> se ven en el código fuente pero no llegan al navegador.
+    // Para notas internas (TODOs, "no publicar", "no lo saques"). Los <!-- --> comunes quedan.
+    return out.replace(BUILD_COMMENT_RE, '');
   };
 
   return {
@@ -96,7 +107,7 @@ function seoFiles() {
         source: [
           '<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-          ...PAGINAS.map((p) =>
+          ...PAGINAS.filter((p) => p.sitemap !== false).map((p) =>
             [
               '  <url>',
               `    <loc>${SITE}${p.ruta}</loc>`,
@@ -113,7 +124,51 @@ function seoFiles() {
   };
 }
 
-export default defineConfig({
+/**
+ * Valida las variables del registro (ver DEPLOY.md) antes del build.
+ *
+ * En modo production (`npm run build` / `npm run deploy`) el build FALLA si:
+ *   - falta VITE_API_URL,
+ *   - VITE_API_URL o VITE_TOOLBOX_URL apuntan a localhost / 127.0.0.1,
+ *   - falta VITE_TURNSTILE_SITE_KEY o es una test key de Cloudflare (1x/2x/3x0000…).
+ * Escape para builds locales de prueba: `npm run build:local` (ALLOW_DEV_BUILD=1) o
+ * cualquier otro modo (`vite build --mode staging`); ahí solo avisa.
+ */
+const LOCAL_RE = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:|\/|$)/i;
+const TURNSTILE_TEST_RE = /^[123]x0{4,}/;
+
+function validarEnvRegistro(mode) {
+  return {
+    name: 'validar-env-registro',
+    apply: 'build',
+    buildStart() {
+      const env = { ...loadEnv(mode, root, 'VITE_'), ...pick(process.env) };
+      const problemas = [];
+      if (!env.VITE_API_URL) problemas.push('falta VITE_API_URL');
+      else if (LOCAL_RE.test(env.VITE_API_URL)) problemas.push(`VITE_API_URL apunta a local (${env.VITE_API_URL})`);
+      if (env.VITE_TOOLBOX_URL && LOCAL_RE.test(env.VITE_TOOLBOX_URL)) {
+        problemas.push(`VITE_TOOLBOX_URL apunta a local (${env.VITE_TOOLBOX_URL})`);
+      }
+      if (!env.VITE_TURNSTILE_SITE_KEY) problemas.push('falta VITE_TURNSTILE_SITE_KEY');
+      else if (TURNSTILE_TEST_RE.test(env.VITE_TURNSTILE_SITE_KEY)) {
+        problemas.push('VITE_TURNSTILE_SITE_KEY es una test key de Cloudflare');
+      }
+      if (!problemas.length) return;
+
+      const texto = `Registro: ${problemas.join('; ')} (ver DEPLOY.md).`;
+      const escape = process.env.ALLOW_DEV_BUILD === '1' || mode !== 'production';
+      if (escape) this.warn(`${texto} Build de prueba: NO publicar.`);
+      else this.error(`${texto} Para un build local de prueba: npm run build:local.`);
+    },
+  };
+}
+
+/** Las VITE_* que vengan del entorno del proceso pisan a las de los .env (igual que Vite). */
+function pick(env) {
+  return Object.fromEntries(Object.entries(env).filter(([k]) => k.startsWith('VITE_')));
+}
+
+export default defineConfig(({ mode }) => ({
   base: '/',
   build: {
     outDir: 'dist',
@@ -127,5 +182,6 @@ export default defineConfig({
     htmlPartials(),
     seoFiles(),
     tailwindcss(),
+    validarEnvRegistro(mode),
   ],
-});
+}));
