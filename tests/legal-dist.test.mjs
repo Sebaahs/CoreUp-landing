@@ -97,6 +97,26 @@ for (const [r, tipo] of [['arrepentimiento', 'arrepentimiento'], ['baja', 'baja'
     });
 }
 
+// Ronda 2 (B1): sin maxlength el navegador no corta en silencio lo pegado; los largos los valida el JS.
+for (const r of ['arrepentimiento', 'baja']) {
+    test(`/${r}/: los campos del pedido no tienen maxlength`, () => {
+        const html = readFileSync(join(DIST, r, 'index.html'), 'utf-8');
+        const form = html.match(/<form[^>]*id="pedido-form"[\s\S]*?<\/form>/);
+        assert.ok(form, 'falta el form');
+        assert.doesNotMatch(form[0], /maxlength=/i);
+    });
+}
+
+// Ronda 2 (B5): las notas internas (<!--# ... -->) no llegan al navegador.
+test('dist sin comentarios de build ni notas internas', () => {
+    for (const p of PAGINAS) {
+        const html = readFileSync(p, 'utf-8');
+        for (const re of [/<!--#/, /TODO legal/, /No publicar/, /No los saques/, /si cambia uno/, /SSDCyLC/]) {
+            assert.doesNotMatch(html, re, `${ruta(p)} contiene ${re}`);
+        }
+    }
+});
+
 test('registro: la casilla enlaza /terminos/ y /privacidad-plataforma/', () => {
     for (const p of ['index.html', 'operacional/index.html']) {
         const html = readFileSync(join(DIST, p), 'utf-8');
