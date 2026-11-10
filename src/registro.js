@@ -247,7 +247,8 @@ export function initRegistro() {
             b.addEventListener('click', () => {
                 alerta.textContent = '';
                 alerta.classList.add('hidden');
-                turnstile.reset();
+                // Si el script nunca cargó (bloqueador, red), lo vuelve a inyectar.
+                turnstile.reintentar();
                 document.getElementById('reg-turnstile')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
             });
             alerta.appendChild(b);
