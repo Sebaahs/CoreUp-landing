@@ -1,0 +1,113 @@
+<!--
+  Planes con precio de lanzamiento (home y /operacional). /flota sigue con partials/precio.html (venta asistida).
+  Va después del modelo de servicio y antes del registro.
+-->
+<!--# REGLAS LEGALES de este bloque (no se negocian; ver cerebro, 10 Negocio/Legal):
+     - El texto de precios y condiciones va EXACTO. No se pasa por parámetros: está escrito acá.
+     - Precio de lista SIN tachar y con el mismo tamaño y color que las condiciones.
+     - Nada de "Antes", "Ahorrás", "% off", "por tiempo limitado", "últimos lugares", badges tipo
+       "Más elegido", contadores ni cuentas regresivas. No decir que somos nuevos ni "para los primeros clientes".
+     - Las condiciones (fecha, 12 meses, qué se paga después, precio final, IPC y link) van al lado del
+       precio, en letra de cuerpo (text-base). Nunca en nota al pie chica ni en tooltip.
+     - No sumar tiendas (Mercado Libre / Tienda Nube) ni precios de usuario o tienda extra hasta que estén definidos. -->
+<section id="precio" class="relative overflow-hidden bg-space-deep px-4 py-24 md:py-28">
+  <div class="pointer-events-none absolute -left-24 top-1/4 h-72 w-72 rounded-full bg-violet-primary/10 blur-3xl">
+  </div>
+  <div class="pointer-events-none absolute -right-24 bottom-1/4 h-72 w-72 rounded-full bg-pink-accent/10 blur-3xl">
+  </div>
+
+  <div class="relative mx-auto max-w-5xl">
+    <div class="text-center">
+      <span class="mb-4 inline-block text-sm font-semibold tracking-widest text-violet-primary uppercase">Planes</span>
+      <h2 class="scroll-reveal text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+        Elegí cómo <span
+          class="bg-gradient-to-r from-violet-primary to-pink-accent bg-clip-text text-transparent">pagar</span>
+      </h2>
+      <p class="scroll-reveal mx-auto mt-6 max-w-2xl text-gray-400 leading-relaxed">
+        Los dos planes incluyen lo mismo. Elegí pagar mes a mes o una vez por año.
+      </p>
+    </div>
+
+    <!-- Mensual y Anual, visibles a la vez -->
+    <div class="mt-14 grid gap-6 md:grid-cols-2">
+
+      <!-- ░░ Mensual ░░ -->
+      <article class="scroll-reveal-card flex flex-col rounded-2xl border bg-card-mid p-6 shadow-xl sm:p-8">
+        <p class="text-base leading-snug"><strong class="font-semibold">Oferta de lanzamiento</strong> · para quienes
+          contraten hasta el 31/01/2027</p>
+
+        <h3 class="mt-6 text-2xl font-bold text-white">Mensual</h3>
+        <p class="mt-1 text-base">Precio de lista $150.000 por mes</p>
+
+        <p class="mt-5 text-base leading-relaxed">
+          <strong class="font-bold"><span class="planes-monto">$120.000</span> por mes durante tus primeros 12
+            meses.</strong>
+          Después, precio de lista vigente. Se ajusta cada 3 meses por IPC.
+        </p>
+
+        <!--@include partials/planes-incluye.html -->
+
+        <a href="#contact"
+          class="group relative mt-8 inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98]">
+          Probalo 14 días gratis
+          <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor"
+            stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </article>
+
+      <!-- ░░ Anual ░░ -->
+      <article class="scroll-reveal-card flex flex-col rounded-2xl border bg-card-mid p-6 shadow-xl sm:p-8">
+        <p class="text-base leading-snug"><strong class="font-semibold">Oferta de lanzamiento</strong> · para quienes
+          contraten hasta el 31/01/2027</p>
+
+        <h3 class="mt-6 text-2xl font-bold text-white">Anual <span class="text-base font-semibold">(pagás 10 meses,
+            usás 12)</span></h3>
+        <p class="mt-1 text-base">Precio de lista $1.500.000</p>
+
+        <p class="mt-5 text-base leading-relaxed">
+          <strong class="font-bold"><span class="planes-monto">$1.200.000</span> por 12 meses</strong>, en un solo
+          pago y con precio fijo. Al renovar, precio de lista vigente.
+        </p>
+
+        <!--@include partials/planes-incluye.html -->
+
+        <a href="#contact"
+          class="group relative mt-8 inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-violet-primary to-pink-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-violet-primary/30 hover:shadow-xl active:scale-[0.98]">
+          Probalo 14 días gratis
+          <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor"
+            stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </article>
+    </div>
+
+    <!-- Condiciones comunes: justo debajo de los dos precios, con letra de cuerpo. -->
+    <p class="mx-auto mt-6 max-w-3xl text-center text-base leading-relaxed">
+      Precios finales en pesos, sin IVA adicional. Incluye 3 usuarios, asistente de IA, insights y factura C.
+      Servicio para negocios de la Provincia de Buenos Aires. 14 días de prueba gratis sin tarjeta.
+      <a href="/terminos/#6" class="planes-link font-semibold underline">Condiciones de la oferta</a> · Podés darte de
+      baja cuando quieras.
+    </p>
+
+    <!-- ░░ Empresa (secundaria) ░░ -->
+    <article
+      class="scroll-reveal-card mx-auto mt-12 flex max-w-3xl flex-col gap-5 rounded-2xl border bg-space-mid/60 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7">
+      <div>
+        <h3 class="text-xl font-bold text-white">Empresa</h3>
+        <p class="mt-2 text-base leading-relaxed">Para más usuarios, varias sucursales o varios CUIT, con carga
+          inicial asistida. Armamos el plan con vos.</p>
+      </div>
+      <a href="#contact" data-abrir-demo aria-controls="demo-panel" aria-expanded="false"
+        class="planes-btn-secundario inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 px-6 py-3 text-sm font-semibold transition-colors">
+        Hablemos
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+          aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+    </article>
+  </div>
+</section>
