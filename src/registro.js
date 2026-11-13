@@ -41,7 +41,6 @@ const MSJ = {
     queHaces: 'Elegí la opción que más se parezca a lo que hacés.',
     whatsapp: 'Revisá el número: solo números, con el código de país si podés (ej: +54 9 11 1234 5678).',
     terminos: 'Para crear la cuenta tenés que aceptar los Términos y la Política de privacidad.',
-    domicilioPba: 'Por ahora atendemos solo negocios con domicilio fiscal en la Provincia de Buenos Aires.',
     turnstile: 'Esperá un segundo a que terminemos de verificar que no seas un robot.',
     turnstileError: 'No pudimos cargar la verificación anti-robots.',
     reintentar: 'Reintentar',
@@ -183,8 +182,6 @@ export function initRegistro() {
             whatsapp: normalizarWhatsapp(form.whatsapp.value),
             whatsappCrudo: form.whatsapp.value.trim(),
             aceptaTerminos: form.aceptaTerminos.checked,
-            // Solo validación del front: NO va en armarBody (el back tiene forbidNonWhitelisted → 400).
-            domicilioPba: form.domicilioPba.checked,
         };
     }
 
@@ -315,7 +312,7 @@ export function initRegistro() {
     }
 
     function limpiarTodo() {
-        ['nombre', 'email', 'password', 'negocio', 'queHaces', 'whatsapp', 'aceptaTerminos', 'domicilioPba'].forEach(limpiarError);
+        ['nombre', 'email', 'password', 'negocio', 'queHaces', 'whatsapp', 'aceptaTerminos'].forEach(limpiarError);
         alerta.textContent = '';
         alerta.classList.add('hidden');
     }
@@ -520,7 +517,6 @@ function validar(d) {
     if (!d.queHaces) e.queHaces = MSJ.queHaces;
     if (d.whatsappCrudo && !d.whatsapp) e.whatsapp = MSJ.whatsapp;
     if (!d.aceptaTerminos) e.aceptaTerminos = MSJ.terminos;
-    if (!d.domicilioPba) e.domicilioPba = MSJ.domicilioPba;
     return e;
 }
 
