@@ -141,6 +141,18 @@
             <p id="reg-terminos-error" class="reg-error mt-1 hidden text-xs" data-reg-error="aceptaTerminos"></p>
           </div>
 
+          <!-- Domicilio fiscal en PBA (sin marcar). Solo validación del front: no viaja al backend. -->
+          <div>
+            <div class="flex items-start gap-3">
+              <input id="reg-pba" name="domicilioPba" type="checkbox" required
+                aria-describedby="reg-pba-error" class="reg-check mt-0.5 h-5 w-5 shrink-0 cursor-pointer" />
+              <label for="reg-pba" class="text-sm leading-snug text-gray-300">
+                Mi negocio tiene domicilio fiscal en la Provincia de Buenos Aires (por ahora atendemos solo PBA)
+              </label>
+            </div>
+            <p id="reg-pba-error" class="reg-error mt-1 hidden text-xs" data-reg-error="domicilioPba"></p>
+          </div>
+
           <!-- Turnstile (Cloudflare). Se renderiza solo si hay VITE_TURNSTILE_SITE_KEY; sus errores van a #reg-alerta. -->
           <div id="reg-turnstile" class="min-h-0"></div>
 

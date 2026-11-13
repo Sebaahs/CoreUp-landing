@@ -391,3 +391,16 @@ input.reg-check {
   outline-offset: 2px;
   border-radius: 6px;
 }
+
+/* "Todo lo que incluye" (partials/planes-incluye.html) */
+.incluye-icono {
+  background: linear-gradient(135deg, rgba(138, 140, 243, 0.16), rgba(79, 110, 247, 0.16));
+  color: #4f46e5;
+}
+.incluye-ia {
+  background: linear-gradient(120deg, rgba(138, 140, 243, 0.14), rgba(79, 110, 247, 0.10) 60%, #ffffff);
+  border-color: rgba(138, 140, 243, 0.45);
+}
+#story-container .incluye-bajada {
+  color: #0f172a !important;
+}
