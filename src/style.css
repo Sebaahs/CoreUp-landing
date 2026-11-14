@@ -235,3 +235,57 @@ footer p {
     display: none;
   }
 }
+
+/* ===== Planes con precio (partials/planes.html) =====
+   El monto se destaca, pero las condiciones van en letra de cuerpo al lado (regla legal).
+   Es un <span> para que no lo pise el color forzado de los <p> del #story-container. */
+.planes-monto {
+  display: inline-block;
+  margin-right: 0.25rem;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, var(--color-violet-primary), var(--color-pink-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@media (min-width: 640px) {
+  .planes-monto {
+    font-size: 3rem;
+  }
+}
+#story-container .planes-link {
+  color: #3b55d9 !important;
+}
+#story-container .planes-link:hover {
+  color: #2f45b8 !important;
+}
+.planes-btn-secundario {
+  border-color: var(--color-pink-accent);
+  color: #3b55d9;
+  background: #ffffff;
+}
+.planes-btn-secundario:hover {
+  background: rgba(79, 110, 247, 0.08);
+}
+.planes-link:focus-visible,
+.planes-btn-secundario:focus-visible {
+  outline: 2px solid var(--color-violet-primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* "Todo lo que incluye" (partials/planes-incluye.html) */
+.incluye-icono {
+  background: linear-gradient(135deg, rgba(138, 140, 243, 0.16), rgba(79, 110, 247, 0.16));
+  color: #4f46e5;
+}
+.incluye-ia {
+  background: linear-gradient(120deg, rgba(138, 140, 243, 0.14), rgba(79, 110, 247, 0.10) 60%, #ffffff);
+  border-color: rgba(138, 140, 243, 0.45);
+}
+#story-container .incluye-bajada {
+  color: #0f172a !important;
+}
